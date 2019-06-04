@@ -6,10 +6,23 @@
 //  Copyright © 2019 Lukas Zierahn. All rights reserved.
 //
 
-#include <iostream>
+#include <stdio.h>
+#include <stdlib.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+#include "render.hpp"
+
+int main( void )
+{
+    Render render = Render();
+    
+    do{
+        render.Draw();
+    } // Check if the ESC key was pressed or the window was closed
+    while( glfwGetKey(render.getWindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(render.getWindow()) == 0 );
+    
+    // Close OpenGL window and terminate GLFW
+    glfwTerminate();
+
     return 0;
 }
+

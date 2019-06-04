@@ -7,24 +7,77 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8053C2D722A40F8F0003328B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 800CB2AE22A401CB003F7361 /* OpenGL.framework */; };
+		8053C2D822A40F940003328B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2CF22A403860003328B /* GLUT.framework */; };
+		8053C2D922A40F980003328B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2D222A405E20003328B /* Cocoa.framework */; };
+		8053C2E622A41F1F0003328B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2E522A41F1F0003328B /* IOKit.framework */; };
+		8053C2E822A41F270003328B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2E722A41F270003328B /* CoreVideo.framework */; };
+		8053C2EB22A421D80003328B /* libGLEW.2.1.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2EA22A421D80003328B /* libGLEW.2.1.0.dylib */; };
+		8053C2ED22A421E00003328B /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2EC22A421E00003328B /* libGLEW.a */; };
+		8053C2EF22A421F10003328B /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2EE22A421F10003328B /* libglfw3.a */; };
+		8053C2F222A455B30003328B /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F022A455B30003328B /* Render.cpp */; };
+		8053C2F522A45B060003328B /* DrawableObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F322A45B060003328B /* DrawableObject.cpp */; };
+		8053C2F822A54D650003328B /* ModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F622A54D650003328B /* ModelLoader.cpp */; };
+		8053C2FB22A5547D0003328B /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F922A5547D0003328B /* Camera.cpp */; };
+		8053C30022A561850003328B /* VS.GLSL in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8053C2FD22A560A30003328B /* VS.GLSL */; };
+		8053C30122A5618A0003328B /* FS.GLSL in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8053C2FE22A5612F0003328B /* FS.GLSL */; };
 		80BB0CD422A3EDBF0069BCDF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80BB0CD322A3EDBF0069BCDF /* main.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		80BB0CCE22A3EDBF0069BCDF /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			buildActionMask = 12;
+			dstPath = shader;
+			dstSubfolderSpec = 16;
 			files = (
+				8053C30122A5618A0003328B /* FS.GLSL in CopyFiles */,
+				8053C30022A561850003328B /* VS.GLSL in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		800CB2A922A3FB93003F7361 /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; name = glm; path = ../../Downloads/Libraries/glm/glm; sourceTree = "<group>"; };
+		800CB2AB22A3FCD1003F7361 /* glm.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = glm.hpp; path = ../../Downloads/Libraries/glm/glm/glm.hpp; sourceTree = "<group>"; };
+		800CB2AE22A401CB003F7361 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		800CB2B022A40213003F7361 /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = "../../Downloads/Libraries/glew-2.1.0/lib/libGLEW.a"; sourceTree = "<group>"; };
+		800CB2B222A4027D003F7361 /* lib */ = {isa = PBXFileReference; lastKnownFileType = folder; name = lib; path = "../../Downloads/Libraries/glew-2.1.0/lib"; sourceTree = "<group>"; };
+		800CB2B422A402C7003F7361 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = "../../Downloads/Libraries/glew-2.1.0/include"; sourceTree = "<group>"; };
+		800CB2B622A402D5003F7361 /* GL */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GL; path = "../../Downloads/Libraries/glew-2.1.0/include/GL"; sourceTree = "<group>"; };
+		800CB2B822A402E1003F7361 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW"; sourceTree = "<group>"; };
+		80492C7F22A6AA4800821F00 /* Include.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Include.h; sourceTree = "<group>"; };
+		8053C2CF22A403860003328B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		8053C2D222A405E20003328B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		8053C2D422A408F10003328B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		8053C2DA22A40FA80003328B /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = "../../Downloads/Libraries/glfw-3.3/src/libglfw3.a"; sourceTree = "<group>"; };
+		8053C2E022A41DD20003328B /* cmake */ = {isa = PBXFileReference; lastKnownFileType = folder; name = cmake; path = "../../Downloads/Libraries/glfw-3.3/CMakeFiles/Export/lib/cmake"; sourceTree = "<group>"; };
+		8053C2E322A41E3F0003328B /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../Downloads/Libraries/libglfw3.a; sourceTree = "<group>"; };
+		8053C2E522A41F1F0003328B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		8053C2E722A41F270003328B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		8053C2EA22A421D80003328B /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = ../../../../usr/local/lib/libGLEW.2.1.0.dylib; sourceTree = "<group>"; };
+		8053C2EC22A421E00003328B /* libGLEW.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLEW.a; path = ../../../../usr/local/lib/libGLEW.a; sourceTree = "<group>"; };
+		8053C2EE22A421F10003328B /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../../../usr/local/lib/libglfw3.a; sourceTree = "<group>"; };
+		8053C2F022A455B30003328B /* Render.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
+		8053C2F122A455B30003328B /* Render.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Render.hpp; sourceTree = "<group>"; };
+		8053C2F322A45B060003328B /* DrawableObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DrawableObject.cpp; sourceTree = "<group>"; };
+		8053C2F422A45B060003328B /* DrawableObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawableObject.hpp; sourceTree = "<group>"; };
+		8053C2F622A54D650003328B /* ModelLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelLoader.cpp; sourceTree = "<group>"; };
+		8053C2F722A54D650003328B /* ModelLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelLoader.hpp; sourceTree = "<group>"; };
+		8053C2F922A5547D0003328B /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		8053C2FA22A5547D0003328B /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
+		8053C2FD22A560A30003328B /* VS.GLSL */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = VS.GLSL; sourceTree = "<group>"; };
+		8053C2FE22A5612F0003328B /* FS.GLSL */ = {isa = PBXFileReference; lastKnownFileType = text; path = FS.GLSL; sourceTree = "<group>"; };
 		80BB0CD022A3EDBF0069BCDF /* PLG */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PLG; sourceTree = BUILT_PRODUCTS_DIR; };
 		80BB0CD322A3EDBF0069BCDF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		80BB0CDB22A3F9CC0069BCDF /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = "../../Downloads/Libraries/glew-2.1.0/lib/libGLEW.2.1.0.dylib"; sourceTree = "<group>"; };
+		80BB0CDD22A3FA010069BCDF /* wglew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = wglew.h; path = "../../Downloads/Libraries/glew-2.1.0/include/GL/wglew.h"; sourceTree = "<group>"; };
+		80BB0CDE22A3FA010069BCDF /* glew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glew.h; path = "../../Downloads/Libraries/glew-2.1.0/include/GL/glew.h"; sourceTree = "<group>"; };
+		80BB0CDF22A3FA010069BCDF /* eglew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = eglew.h; path = "../../Downloads/Libraries/glew-2.1.0/include/GL/eglew.h"; sourceTree = "<group>"; };
+		80BB0CE022A3FA010069BCDF /* glxew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glxew.h; path = "../../Downloads/Libraries/glew-2.1.0/include/GL/glxew.h"; sourceTree = "<group>"; };
+		80BB0CE522A3FAAF0069BCDF /* glfw3native.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3native.h; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW/glfw3native.h"; sourceTree = "<group>"; };
+		80BB0CE622A3FAAF0069BCDF /* glfw3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3.h; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW/glfw3.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,17 +85,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8053C2EF22A421F10003328B /* libglfw3.a in Frameworks */,
+				8053C2ED22A421E00003328B /* libGLEW.a in Frameworks */,
+				8053C2EB22A421D80003328B /* libGLEW.2.1.0.dylib in Frameworks */,
+				8053C2E822A41F270003328B /* CoreVideo.framework in Frameworks */,
+				8053C2E622A41F1F0003328B /* IOKit.framework in Frameworks */,
+				8053C2D922A40F980003328B /* Cocoa.framework in Frameworks */,
+				8053C2D822A40F940003328B /* GLUT.framework in Frameworks */,
+				8053C2D722A40F8F0003328B /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8053C2FC22A5606D0003328B /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				8053C2FD22A560A30003328B /* VS.GLSL */,
+				8053C2FE22A5612F0003328B /* FS.GLSL */,
+			);
+			path = shader;
+			sourceTree = "<group>";
+		};
+		8053C30222A6A1C40003328B /* ModelLoader */ = {
+			isa = PBXGroup;
+			children = (
+				8053C2F422A45B060003328B /* DrawableObject.hpp */,
+				8053C2F322A45B060003328B /* DrawableObject.cpp */,
+				8053C2F722A54D650003328B /* ModelLoader.hpp */,
+				8053C2F622A54D650003328B /* ModelLoader.cpp */,
+			);
+			path = ModelLoader;
+			sourceTree = "<group>";
+		};
 		80BB0CC722A3EDBF0069BCDF = {
 			isa = PBXGroup;
 			children = (
 				80BB0CD222A3EDBF0069BCDF /* PLG */,
 				80BB0CD122A3EDBF0069BCDF /* Products */,
+				80BB0CDA22A3F9CB0069BCDF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +139,49 @@
 		80BB0CD222A3EDBF0069BCDF /* PLG */ = {
 			isa = PBXGroup;
 			children = (
+				8053C30222A6A1C40003328B /* ModelLoader */,
+				80492C7F22A6AA4800821F00 /* Include.h */,
 				80BB0CD322A3EDBF0069BCDF /* main.cpp */,
+				8053C2F122A455B30003328B /* Render.hpp */,
+				8053C2F022A455B30003328B /* Render.cpp */,
+				8053C2FA22A5547D0003328B /* Camera.hpp */,
+				8053C2F922A5547D0003328B /* Camera.cpp */,
+				8053C2FC22A5606D0003328B /* shader */,
 			);
 			path = PLG;
+			sourceTree = "<group>";
+		};
+		80BB0CDA22A3F9CB0069BCDF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8053C2EE22A421F10003328B /* libglfw3.a */,
+				8053C2EC22A421E00003328B /* libGLEW.a */,
+				8053C2EA22A421D80003328B /* libGLEW.2.1.0.dylib */,
+				8053C2E722A41F270003328B /* CoreVideo.framework */,
+				8053C2E522A41F1F0003328B /* IOKit.framework */,
+				8053C2E322A41E3F0003328B /* libglfw3.a */,
+				8053C2E022A41DD20003328B /* cmake */,
+				8053C2DA22A40FA80003328B /* libglfw3.a */,
+				8053C2D422A408F10003328B /* GLKit.framework */,
+				8053C2D222A405E20003328B /* Cocoa.framework */,
+				8053C2CF22A403860003328B /* GLUT.framework */,
+				800CB2B822A402E1003F7361 /* GLFW */,
+				800CB2B622A402D5003F7361 /* GL */,
+				800CB2B422A402C7003F7361 /* include */,
+				800CB2B222A4027D003F7361 /* lib */,
+				800CB2B022A40213003F7361 /* libGLEW.a */,
+				800CB2AE22A401CB003F7361 /* OpenGL.framework */,
+				800CB2AB22A3FCD1003F7361 /* glm.hpp */,
+				800CB2A922A3FB93003F7361 /* glm */,
+				80BB0CE622A3FAAF0069BCDF /* glfw3.h */,
+				80BB0CE522A3FAAF0069BCDF /* glfw3native.h */,
+				80BB0CDF22A3FA010069BCDF /* eglew.h */,
+				80BB0CDE22A3FA010069BCDF /* glew.h */,
+				80BB0CE022A3FA010069BCDF /* glxew.h */,
+				80BB0CDD22A3FA010069BCDF /* wglew.h */,
+				80BB0CDB22A3F9CC0069BCDF /* libGLEW.2.1.0.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +240,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8053C2F822A54D650003328B /* ModelLoader.cpp in Sources */,
+				8053C2F522A45B060003328B /* DrawableObject.cpp in Sources */,
+				8053C2FB22A5547D0003328B /* Camera.cpp in Sources */,
 				80BB0CD422A3EDBF0069BCDF /* main.cpp in Sources */,
+				8053C2F222A455B30003328B /* Render.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +366,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -248,6 +376,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

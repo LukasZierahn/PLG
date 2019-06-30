@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		80492C8222AC516400821F00 /* datasrc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80492C8122AC513500821F00 /* datasrc */; };
+		80492C8422AC51A300821F00 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80492C8322AC519700821F00 /* data */; };
+		80492C8722BF800E00821F00 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80492C8522BF800E00821F00 /* Texture.cpp */; };
+		80492C8922BF8A0A00821F00 /* TexturedObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80492C8822BF8A0A00821F00 /* TexturedObject.cpp */; };
 		8053C2D722A40F8F0003328B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 800CB2AE22A401CB003F7361 /* OpenGL.framework */; };
 		8053C2D822A40F940003328B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2CF22A403860003328B /* GLUT.framework */; };
 		8053C2D922A40F980003328B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2D222A405E20003328B /* Cocoa.framework */; };
@@ -16,23 +20,24 @@
 		8053C2ED22A421E00003328B /* libGLEW.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2EC22A421E00003328B /* libGLEW.a */; };
 		8053C2EF22A421F10003328B /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8053C2EE22A421F10003328B /* libglfw3.a */; };
 		8053C2F222A455B30003328B /* Render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F022A455B30003328B /* Render.cpp */; };
-		8053C2F522A45B060003328B /* DrawableObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F322A45B060003328B /* DrawableObject.cpp */; };
 		8053C2F822A54D650003328B /* ModelLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F622A54D650003328B /* ModelLoader.cpp */; };
 		8053C2FB22A5547D0003328B /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8053C2F922A5547D0003328B /* Camera.cpp */; };
-		8053C30022A561850003328B /* VS.GLSL in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8053C2FD22A560A30003328B /* VS.GLSL */; };
-		8053C30122A5618A0003328B /* FS.GLSL in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8053C2FE22A5612F0003328B /* FS.GLSL */; };
 		80BB0CD422A3EDBF0069BCDF /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80BB0CD322A3EDBF0069BCDF /* main.cpp */; };
+		80ED893222C0104E0045A21A /* ColoredObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80ED893022C0104E0045A21A /* ColoredObject.cpp */; };
+		80ED893422C014230045A21A /* DrawableObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80ED893322C014230045A21A /* DrawableObject.cpp */; };
+		80ED893822C038DC0045A21A /* shader in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80ED893722C038DC0045A21A /* shader */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		80BB0CCE22A3EDBF0069BCDF /* CopyFiles */ = {
+		80492C8022AC510C00821F00 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 12;
-			dstPath = shader;
+			buildActionMask = 2147483647;
+			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				8053C30122A5618A0003328B /* FS.GLSL in CopyFiles */,
-				8053C30022A561850003328B /* VS.GLSL in CopyFiles */,
+				80ED893822C038DC0045A21A /* shader in CopyFiles */,
+				80492C8422AC51A300821F00 /* data in CopyFiles */,
+				80492C8222AC516400821F00 /* datasrc in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +53,12 @@
 		800CB2B622A402D5003F7361 /* GL */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GL; path = "../../Downloads/Libraries/glew-2.1.0/include/GL"; sourceTree = "<group>"; };
 		800CB2B822A402E1003F7361 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW"; sourceTree = "<group>"; };
 		80492C7F22A6AA4800821F00 /* Include.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Include.h; sourceTree = "<group>"; };
+		80492C8122AC513500821F00 /* datasrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = datasrc; path = /Users/lukas/projects/PLG/PLG/datasrc; sourceTree = "<absolute>"; };
+		80492C8322AC519700821F00 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = /Users/lukas/projects/PLG/PLG/data; sourceTree = "<absolute>"; };
+		80492C8522BF800E00821F00 /* Texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
+		80492C8622BF800E00821F00 /* Texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Texture.hpp; sourceTree = "<group>"; };
+		80492C8822BF8A0A00821F00 /* TexturedObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TexturedObject.cpp; sourceTree = "<group>"; };
+		80492C8A22BF8A3C00821F00 /* DrawableObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawableObject.hpp; sourceTree = "<group>"; };
 		8053C2CF22A403860003328B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		8053C2D222A405E20003328B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		8053C2D422A408F10003328B /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
@@ -61,14 +72,11 @@
 		8053C2EE22A421F10003328B /* libglfw3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libglfw3.a; path = ../../../../usr/local/lib/libglfw3.a; sourceTree = "<group>"; };
 		8053C2F022A455B30003328B /* Render.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Render.cpp; sourceTree = "<group>"; };
 		8053C2F122A455B30003328B /* Render.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Render.hpp; sourceTree = "<group>"; };
-		8053C2F322A45B060003328B /* DrawableObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DrawableObject.cpp; sourceTree = "<group>"; };
-		8053C2F422A45B060003328B /* DrawableObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DrawableObject.hpp; sourceTree = "<group>"; };
+		8053C2F422A45B060003328B /* TexturedObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TexturedObject.hpp; sourceTree = "<group>"; };
 		8053C2F622A54D650003328B /* ModelLoader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ModelLoader.cpp; sourceTree = "<group>"; };
 		8053C2F722A54D650003328B /* ModelLoader.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ModelLoader.hpp; sourceTree = "<group>"; };
 		8053C2F922A5547D0003328B /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		8053C2FA22A5547D0003328B /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
-		8053C2FD22A560A30003328B /* VS.GLSL */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = VS.GLSL; sourceTree = "<group>"; };
-		8053C2FE22A5612F0003328B /* FS.GLSL */ = {isa = PBXFileReference; lastKnownFileType = text; path = FS.GLSL; sourceTree = "<group>"; };
 		80BB0CD022A3EDBF0069BCDF /* PLG */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PLG; sourceTree = BUILT_PRODUCTS_DIR; };
 		80BB0CD322A3EDBF0069BCDF /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		80BB0CDB22A3F9CC0069BCDF /* libGLEW.2.1.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libGLEW.2.1.0.dylib; path = "../../Downloads/Libraries/glew-2.1.0/lib/libGLEW.2.1.0.dylib"; sourceTree = "<group>"; };
@@ -78,6 +86,10 @@
 		80BB0CE022A3FA010069BCDF /* glxew.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glxew.h; path = "../../Downloads/Libraries/glew-2.1.0/include/GL/glxew.h"; sourceTree = "<group>"; };
 		80BB0CE522A3FAAF0069BCDF /* glfw3native.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3native.h; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW/glfw3native.h"; sourceTree = "<group>"; };
 		80BB0CE622A3FAAF0069BCDF /* glfw3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = glfw3.h; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW/glfw3.h"; sourceTree = "<group>"; };
+		80ED893022C0104E0045A21A /* ColoredObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ColoredObject.cpp; sourceTree = "<group>"; };
+		80ED893122C0104E0045A21A /* ColoredObject.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColoredObject.hpp; sourceTree = "<group>"; };
+		80ED893322C014230045A21A /* DrawableObject.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DrawableObject.cpp; sourceTree = "<group>"; };
+		80ED893722C038DC0045A21A /* shader */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shader; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,20 +111,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		8053C2FC22A5606D0003328B /* shader */ = {
-			isa = PBXGroup;
-			children = (
-				8053C2FD22A560A30003328B /* VS.GLSL */,
-				8053C2FE22A5612F0003328B /* FS.GLSL */,
-			);
-			path = shader;
-			sourceTree = "<group>";
-		};
 		8053C30222A6A1C40003328B /* ModelLoader */ = {
 			isa = PBXGroup;
 			children = (
-				8053C2F422A45B060003328B /* DrawableObject.hpp */,
-				8053C2F322A45B060003328B /* DrawableObject.cpp */,
+				80492C8A22BF8A3C00821F00 /* DrawableObject.hpp */,
+				80ED893322C014230045A21A /* DrawableObject.cpp */,
+				8053C2F422A45B060003328B /* TexturedObject.hpp */,
+				80492C8822BF8A0A00821F00 /* TexturedObject.cpp */,
+				80492C8622BF800E00821F00 /* Texture.hpp */,
+				80492C8522BF800E00821F00 /* Texture.cpp */,
+				80ED893122C0104E0045A21A /* ColoredObject.hpp */,
+				80ED893022C0104E0045A21A /* ColoredObject.cpp */,
 				8053C2F722A54D650003328B /* ModelLoader.hpp */,
 				8053C2F622A54D650003328B /* ModelLoader.cpp */,
 			);
@@ -139,6 +148,9 @@
 		80BB0CD222A3EDBF0069BCDF /* PLG */ = {
 			isa = PBXGroup;
 			children = (
+				80ED893722C038DC0045A21A /* shader */,
+				80492C8322AC519700821F00 /* data */,
+				80492C8122AC513500821F00 /* datasrc */,
 				8053C30222A6A1C40003328B /* ModelLoader */,
 				80492C7F22A6AA4800821F00 /* Include.h */,
 				80BB0CD322A3EDBF0069BCDF /* main.cpp */,
@@ -146,7 +158,6 @@
 				8053C2F022A455B30003328B /* Render.cpp */,
 				8053C2FA22A5547D0003328B /* Camera.hpp */,
 				8053C2F922A5547D0003328B /* Camera.cpp */,
-				8053C2FC22A5606D0003328B /* shader */,
 			);
 			path = PLG;
 			sourceTree = "<group>";
@@ -193,7 +204,7 @@
 			buildPhases = (
 				80BB0CCC22A3EDBF0069BCDF /* Sources */,
 				80BB0CCD22A3EDBF0069BCDF /* Frameworks */,
-				80BB0CCE22A3EDBF0069BCDF /* CopyFiles */,
+				80492C8022AC510C00821F00 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -241,9 +252,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				8053C2F822A54D650003328B /* ModelLoader.cpp in Sources */,
-				8053C2F522A45B060003328B /* DrawableObject.cpp in Sources */,
 				8053C2FB22A5547D0003328B /* Camera.cpp in Sources */,
+				80ED893222C0104E0045A21A /* ColoredObject.cpp in Sources */,
+				80492C8722BF800E00821F00 /* Texture.cpp in Sources */,
+				80ED893422C014230045A21A /* DrawableObject.cpp in Sources */,
 				80BB0CD422A3EDBF0069BCDF /* main.cpp in Sources */,
+				80492C8922BF8A0A00821F00 /* TexturedObject.cpp in Sources */,
 				8053C2F222A455B30003328B /* Render.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,28 +1,37 @@
 //
 //  DrawableObject.hpp
-//  PLG
+//  
 //
-//  Created by Lukas Zierahn on 02.06.19.
-//  Copyright © 2019 Lukas Zierahn. All rights reserved.
+//  Created by Lukas Zierahn on 23.06.19.
 //
 
 #ifndef DrawableObject_hpp
 #define DrawableObject_hpp
 
-#include <stdio.h>
+class ModelData;
+class Render;
+class Texture;
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-using namespace glm;
+#include "Include.h"
 
 class DrawableObject {
+protected:
+    Render* render;
+    
+    ModelData* modelData = nullptr;
     
     vec3 position = vec3(0, 0, 0);
     vec3 rotation = vec3(0, 0, 0);
     vec3 scale = vec3(1, 1, 1);
-
-    void Draw();
+    mat4 MVPmatrix;
+    GLuint MVPID;
     
+public:
+    DrawableObject(Render* render);
+    
+    void Draw() { cout << "Drawable Object Draw function called!" << endl; }
+    
+    void ComputeMVPMatrix();
 };
 
 #endif /* DrawableObject_hpp */

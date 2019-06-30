@@ -12,32 +12,49 @@
 #include "include.h"
 #include <map>
 
-#include "Render.hpp"
-
+class Render;
+class Texture;
 
 struct ModelData {
-    string name;
+    string key;
     GLuint vertexBuffer;
     GLuint uvBuffer;
     GLuint normalBuffer;
     GLuint indexBuffer;
+    GLuint colorBuffer;
+    
+    int vertexCount;
+    int indexCount;
+    
+    bool hasNormals = false;
+    bool hasUVs = false;
+    bool hasColor = false;
 };
 
 class ModelLoader {
 private:
     Render* render;
     
-    map<string, ModelData> modelData;
+    map<string, ModelData*> modelDataMap;
+    map<string, Texture*> textureMap;
+
+    void LoadHardcodedModels();
     
 public:
     ModelLoader(Render* render);
     ModelData* getModel(string key);
+    Texture* getTexture(string key);
     
     void LoadModelFromFile(string key);
     void LoadModelFromFile(string key, string path);
     
     void ConvertFileToCng(string key);
     void ConvertFileToCng(string key, string srcPath, string targetPath);
+    
+    void LoadTextureFromFile(string key);
+    void LoadTextureFromFile(string key, string path);
+
+    ~ModelLoader();
 };
 
 #endif /* ModelLoader_hpp */

@@ -8,13 +8,16 @@
 
 #include "render.hpp"
 
-int Render::InitGL() {
+#include "ColoredObject.hpp"
+#include "TexturedObject.hpp"
+
+void Render::InitGL() {
     // Initialise GLFW
     if (!glfwInit())
     {
         fprintf(stderr, "Failed to initialize GLFW\n");
         getchar();
-        return -1;
+        return;
     }
     
     glfwWindowHint(GLFW_SAMPLES, 4);
@@ -30,7 +33,7 @@ int Render::InitGL() {
         getchar();
 
         glfwTerminate();
-        return -1;
+        return;
     }
     glfwMakeContextCurrent(window);
     
@@ -39,7 +42,7 @@ int Render::InitGL() {
         fprintf(stderr, "Failed to initialize GLEW\n");
         getchar();
         glfwTerminate();
-        return -1;
+        return;
     }
     
     // Ensure we can capture the escape key being pressed below
@@ -47,6 +50,14 @@ int Render::InitGL() {
     
     // Dark blue background
     glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+    
+    // Enable depth test
+    glEnable(GL_DEPTH_TEST);
+    // Accept fragment if it closer to the camera than the former one
+    glDepthFunc(GL_LESS);
+    
+    glGenVertexArrays(1, &VertexArrayID);
+    glBindVertexArray(VertexArrayID);
     
     mainProgram = glCreateProgram();
     GLuint VS_Id = LoadShader("shader/VS.GLSL", GL_VERTEX_SHADER);
@@ -72,17 +83,26 @@ int Render::InitGL() {
     
     glDeleteShader(VS_Id);
     glDeleteShader(FS_Id);
-    
-    return 0;
 }
 
 Render::Render() {
     InitGL();
+    
+    modelLoader = new ModelLoader(this);
+    camera = new Camera(this);
+    
+    cube = new TexturedObject(this);
+    cube->setModelDataByKey("cube_File");
+    cube->setTextureByKey("Error");
 }
 
 void Render::Draw() {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glUseProgram(mainProgram);
     
+    camera->UpdateMatricies();
+    cube->Draw();
     
     // Swap buffers
     glfwSwapBuffers(window);
@@ -100,15 +120,13 @@ GLuint Render::LoadShader(const char* path, GLenum type) {
         shaderStream.close();
     } else {
         printf("Failed to load shader from path %s\n", path);
-        getchar();
         return 0;
     }
     
     GLint Result = GL_FALSE;
     int InfoLogLength;
     
-    
-    GLuint shaderId = glCreateShader(GL_VERTEX_SHADER);
+    GLuint shaderId = glCreateShader(type);
     char const* sourcePointer = shaderCode.c_str();
     glShaderSource(shaderId, 1, &sourcePointer, NULL);
     glCompileShader(shaderId);
@@ -122,4 +140,13 @@ GLuint Render::LoadShader(const char* path, GLenum type) {
     }
     
     return shaderId;
+}
+
+Render::~Render() {
+    glDeleteProgram(mainProgram);
+    glDeleteVertexArrays(1, &VertexArrayID);
+    
+    delete modelLoader;
+    delete camera;
+    delete cube;
 }

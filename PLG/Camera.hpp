@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 
-#include "render.hpp"
+class Render;
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,11 +22,12 @@ class Camera {
 private:
     Render* render = nullptr;
     
-    mat4 ViewMatrix;
-    mat4 ProjectionMatrix;
+    mat4 viewMatrix;
+    mat4 projectionMatrix;
+    mat4 jointMatrix;
 
-    vec3 position = vec3(0, 0, 0);
-    vec3 direction = vec3(1, 0, 0);
+    vec3 position = vec3(4, 3, 3);
+    vec3 direction = vec3(-1, -1, -1);
     vec3 up = vec3(0, 1, 0);
 
     float fov = 45.0f;
@@ -36,6 +37,10 @@ public:
     
     void UpdateMatricies();
     
+    mat4 getViewMatrix() { return viewMatrix; }
+    mat4 getProjectionMatrix() { return projectionMatrix; }
+    mat4 getJointMatrix() { return jointMatrix; }
+
     void setPosition(vec3 pos) { position = pos; }
     void setDirection(vec3 dir) { direction = dir; }
     void setUp(vec3 up) { this->up = up; }

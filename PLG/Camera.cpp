@@ -8,6 +8,8 @@
 
 #include "Camera.hpp"
 
+#include "Render.hpp"
+
 Camera::Camera(Render* render) {
     this->render = render;
     
@@ -15,7 +17,9 @@ Camera::Camera(Render* render) {
 }
 
 void Camera::UpdateMatricies() {
-    ProjectionMatrix = perspective(radians(fov), render->getWidth() / (1.0f * render->getHeight()), 0.1f, 100.0f);
+    projectionMatrix = perspective(radians(fov), render->getWidth() / (1.0f * render->getHeight()), 0.1f, 100.0f);
 
-    ViewMatrix = lookAt(position, position + direction, up);
+    viewMatrix = lookAt(position, position + direction, up);
+    
+    jointMatrix = projectionMatrix * viewMatrix;
 }

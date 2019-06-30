@@ -2,6 +2,12 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:PLG.xcodeproj">
+      location = "group:/Users/lukas/projects/PLG/PLG/data">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/lukas/projects/PLG/PLG/datasrc">
+   </FileRef>
+   <FileRef
+      location = "self:">
    </FileRef>
 </Workspace>

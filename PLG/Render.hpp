@@ -9,18 +9,29 @@
 #ifndef render_hpp
 #define render_hpp
 
-#include "include.h"
+#include "Include.h"
+#include "ModelLoader/ModelLoader.hpp"
+#include "Camera.hpp"
+#include "ModelLoader/TexturedObject.hpp"
+
+class ColoredObject;
 
 class Render {
 private:
     int width = 800;
     int height = 600;
     
+    ModelLoader* modelLoader;
+    Camera* camera;
+    
+    TexturedObject* cube;
+    
     GLFWwindow* window;
     
     GLuint mainProgram;
+    GLuint VertexArrayID;
     
-    int InitGL();
+    void InitGL();
     GLuint LoadShader(const char* path, GLenum type);
     
 public:
@@ -32,6 +43,12 @@ public:
         
     int getHeight() { return height; }
     int getWidth() { return width; }
+    GLuint getMainProgram() { return mainProgram; }
+    ModelLoader* getModelLoader() { return modelLoader; }
+    
+    Camera* getCamera() { return camera; }
+    
+    ~Render();
 };
 
 #endif /* render_hpp */

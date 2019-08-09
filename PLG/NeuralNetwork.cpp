@@ -24,6 +24,10 @@ NeuralNetwork::NeuralNetwork(vector<int> layerSetup) {
         }
     }
     
+    this->nodes.reserve(this->totalNodeCount);
+    this->biases.reserve(this->totalNodeCount);
+    this->connections.reserve(this->totalConnectionCount);
+
     srand(time(nullptr));
 }
 
@@ -41,7 +45,7 @@ void NeuralNetwork::Compute() {
             sum = -this->biases[biasPos];
             biasPos++;
             
-            for (int k = 0; k < this->nodeCount[i]; k++) {
+            for (int k = 0; k < this->nodeCount[i - 1]; k++) {
                 sum -= this->nodes[this->nodeCountSums[i - 1] + k] * this->connections[connectionPos];
                 connectionPos++;
             }
@@ -66,3 +70,24 @@ void NeuralNetwork::RandomizeValues() {
 
 NeuralNetwork::~NeuralNetwork() {
 }
+
+void NeuralNetwork::setNode(int layer, int position, double value) {
+    int absolutePosition = this->nodeCountSums[layer] + position;
+    
+    this->nodes[absolutePosition] = value;
+}
+
+void NeuralNetwork::setConnection(int absolutePosition, double value) {
+    this->connections[absolutePosition] = value;
+}
+
+void NeuralNetwork::setBiases(int absolutePosition, double value) {
+    this->biases[absolutePosition] = value;
+}
+
+double NeuralNetwork::getNode(int layer, int position) { 
+    int absolutePosition = this->nodeCountSums[layer] + position;
+    
+    return this->nodes[absolutePosition];
+}
+

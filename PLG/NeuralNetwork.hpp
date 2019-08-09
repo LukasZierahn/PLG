@@ -31,6 +31,12 @@ public:
     
     void Compute();
     void RandomizeValues();
+    
+    void setNode(int layer, int position, double value);
+    void setConnection(int absolutePosition, double value);
+    void setBiases(int absolutePosition, double value);
+
+    double getNode(int layer, int position);
 
     ~NeuralNetwork();
 };

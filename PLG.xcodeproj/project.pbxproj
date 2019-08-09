@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8045DE2B22D285E700EA6390 /* NeuralNetwork.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8045DE2922D285E700EA6390 /* NeuralNetwork.cpp */; };
 		80492C8222AC516400821F00 /* datasrc in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80492C8122AC513500821F00 /* datasrc */; };
 		80492C8422AC51A300821F00 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 80492C8322AC519700821F00 /* data */; };
 		80492C8722BF800E00821F00 /* Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 80492C8522BF800E00821F00 /* Texture.cpp */; };
@@ -52,7 +53,9 @@
 		800CB2B422A402C7003F7361 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = "../../Downloads/Libraries/glew-2.1.0/include"; sourceTree = "<group>"; };
 		800CB2B622A402D5003F7361 /* GL */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GL; path = "../../Downloads/Libraries/glew-2.1.0/include/GL"; sourceTree = "<group>"; };
 		800CB2B822A402E1003F7361 /* GLFW */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GLFW; path = "../../Downloads/Libraries/glfw-3.3/include/GLFW"; sourceTree = "<group>"; };
-		80492C7F22A6AA4800821F00 /* Include.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Include.h; sourceTree = "<group>"; };
+		8045DE2922D285E700EA6390 /* NeuralNetwork.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NeuralNetwork.cpp; sourceTree = "<group>"; };
+		8045DE2A22D285E700EA6390 /* NeuralNetwork.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NeuralNetwork.hpp; sourceTree = "<group>"; };
+		80492C7F22A6AA4800821F00 /* includeEngine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = includeEngine.h; sourceTree = "<group>"; };
 		80492C8122AC513500821F00 /* datasrc */ = {isa = PBXFileReference; lastKnownFileType = folder; name = datasrc; path = /Users/lukas/projects/PLG/PLG/datasrc; sourceTree = "<absolute>"; };
 		80492C8322AC519700821F00 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = /Users/lukas/projects/PLG/PLG/data; sourceTree = "<absolute>"; };
 		80492C8522BF800E00821F00 /* Texture.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Texture.cpp; sourceTree = "<group>"; };
@@ -111,6 +114,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8045DE2822D2852D00EA6390 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				80ED893722C038DC0045A21A /* shader */,
+				80492C8322AC519700821F00 /* data */,
+				80492C8122AC513500821F00 /* datasrc */,
+				8053C30222A6A1C40003328B /* ModelLoader */,
+				80492C7F22A6AA4800821F00 /* includeEngine.h */,
+				8053C2F122A455B30003328B /* Render.hpp */,
+				8053C2F022A455B30003328B /* Render.cpp */,
+				8053C2FA22A5547D0003328B /* Camera.hpp */,
+				8053C2F922A5547D0003328B /* Camera.cpp */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
 		8053C30222A6A1C40003328B /* ModelLoader */ = {
 			isa = PBXGroup;
 			children = (
@@ -148,16 +167,10 @@
 		80BB0CD222A3EDBF0069BCDF /* PLG */ = {
 			isa = PBXGroup;
 			children = (
-				80ED893722C038DC0045A21A /* shader */,
-				80492C8322AC519700821F00 /* data */,
-				80492C8122AC513500821F00 /* datasrc */,
-				8053C30222A6A1C40003328B /* ModelLoader */,
-				80492C7F22A6AA4800821F00 /* Include.h */,
+				8045DE2822D2852D00EA6390 /* Engine */,
 				80BB0CD322A3EDBF0069BCDF /* main.cpp */,
-				8053C2F122A455B30003328B /* Render.hpp */,
-				8053C2F022A455B30003328B /* Render.cpp */,
-				8053C2FA22A5547D0003328B /* Camera.hpp */,
-				8053C2F922A5547D0003328B /* Camera.cpp */,
+				8045DE2A22D285E700EA6390 /* NeuralNetwork.hpp */,
+				8045DE2922D285E700EA6390 /* NeuralNetwork.cpp */,
 			);
 			path = PLG;
 			sourceTree = "<group>";
@@ -256,6 +269,7 @@
 				80ED893222C0104E0045A21A /* ColoredObject.cpp in Sources */,
 				80492C8722BF800E00821F00 /* Texture.cpp in Sources */,
 				80ED893422C014230045A21A /* DrawableObject.cpp in Sources */,
+				8045DE2B22D285E700EA6390 /* NeuralNetwork.cpp in Sources */,
 				80BB0CD422A3EDBF0069BCDF /* main.cpp in Sources */,
 				80492C8922BF8A0A00821F00 /* TexturedObject.cpp in Sources */,
 				8053C2F222A455B30003328B /* Render.cpp in Sources */,

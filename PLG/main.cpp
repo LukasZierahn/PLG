@@ -10,19 +10,14 @@
 #include <stdlib.h>
 
 #include "render.hpp"
+#include "Racing/Racing.hpp"
 
 int main( void )
-{
-    Render render = Render();
+{        
+    Racing racing = Racing();
     
-    do{
-        render.Draw();
-    } // Check if the ESC key was pressed or the window was closed
-    while( glfwGetKey(render.getWindow(), GLFW_KEY_ESCAPE ) != GLFW_PRESS && glfwWindowShouldClose(render.getWindow()) == 0 );
+    racing.Mainloop();
     
-    // Close OpenGL window and terminate GLFW
-    glfwTerminate();
-
     return 0;
 }
 

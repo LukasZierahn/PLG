@@ -63,7 +63,7 @@ void Texture::LoadBMPFromPath(string path) {
     data = new unsigned char [imageSize];
     
     // Read the actual data from the file into the buffer
-    fread(data,1,imageSize,file);
+    fread(data, 1, imageSize, file);
     
     // Everything is in memory now, the file can be closed.
     fclose (file);

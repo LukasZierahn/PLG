@@ -29,7 +29,7 @@ protected:
 public:
     DrawableObject(Render* render);
     
-    void Draw() { cout << "Drawable Object Draw function called!" << endl; }
+    virtual void Draw() { cout << "Drawable Object Draw function called!" << endl; }
     
     void ComputeMVPMatrix();
 };

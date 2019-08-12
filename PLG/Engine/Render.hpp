@@ -18,13 +18,13 @@ class ColoredObject;
 
 class Render {
 private:
-    int width = 800;
-    int height = 600;
+    int width = 1000;
+    int height = 1000;
     
     ModelLoader* modelLoader;
     Camera* camera;
     
-    TexturedObject* cube;
+    vector<DrawableObject*> drawVector;
     
     GLFWwindow* window;
     
@@ -40,7 +40,9 @@ public:
     GLFWwindow* getWindow() { return window; }
     
     void Draw();
-        
+    
+    void addDrawableObject(DrawableObject* drawObject) { drawVector.push_back(drawObject); }
+    
     int getHeight() { return height; }
     int getWidth() { return width; }
     GLuint getMainProgram() { return mainProgram; }

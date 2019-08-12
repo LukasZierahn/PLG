@@ -90,10 +90,6 @@ Render::Render() {
     
     modelLoader = new ModelLoader(this);
     camera = new Camera(this);
-    
-    cube = new TexturedObject(this);
-    cube->setModelDataByKey("cube_File");
-    cube->setTextureByKey("Error");
 }
 
 void Render::Draw() {
@@ -102,7 +98,10 @@ void Render::Draw() {
     glUseProgram(mainProgram);
     
     camera->UpdateMatricies();
-    cube->Draw();
+    
+    for (DrawableObject* drawObject : drawVector) {
+        drawObject->Draw();
+    }
     
     // Swap buffers
     glfwSwapBuffers(window);
@@ -148,5 +147,8 @@ Render::~Render() {
     
     delete modelLoader;
     delete camera;
-    delete cube;
+    
+    for (DrawableObject* drawObject : drawVector) {
+        delete drawObject;
+    }
 }

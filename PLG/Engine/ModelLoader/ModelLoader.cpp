@@ -44,8 +44,7 @@ void ModelLoader::LoadModelFromFile(string key, string path) {
     //open the document
     modelStream.open(path.c_str(), ifstream::in);
     
-    if (modelStream.fail())
-    {
+    if (modelStream.fail()) {
         modelStream.close();
         ConvertFileToCng(key);
         modelStream.open(path.c_str(), ifstream::in);
@@ -222,8 +221,7 @@ void ModelLoader::ConvertFileToCng(string key, string srcPath, string targetPath
                 
                 inputStream.ignore(1000, '\n');
             }
-            else if (input == 'n')
-            {
+            else if (input == 'n') {
                 hasNormals = true;
                 
                 inputStream.get(input);
@@ -235,8 +233,7 @@ void ModelLoader::ConvertFileToCng(string key, string srcPath, string targetPath
                 inputStream.ignore(1000, '\n');
             }
         }
-        else if (input == 'f') //Indecies
-        {
+        else if (input == 'f') { //Indecies
             inputStream.get(input);
             if (input == ' ')
             {
@@ -261,9 +258,7 @@ void ModelLoader::ConvertFileToCng(string key, string srcPath, string targetPath
                         inputStream >> newCngVertex.normalIndex;
                         inputStream.get(input);
                     }
-                    
-                    cout << newCngVertex.posIndex << " " << newCngVertex.uvIndex << " " << newCngVertex.normalIndex << endl;
-                    
+                                        
                     //making these zero indexed
                     newCngVertex.posIndex--;
                     newCngVertex.uvIndex--;
@@ -288,8 +283,7 @@ void ModelLoader::ConvertFileToCng(string key, string srcPath, string targetPath
                 }
             }
         }
-        else if (input != '\n') //skip to the next line
-        {
+        else if (input != '\n') { //skip to the next line
             inputStream.ignore(1000, '\n');
             
         }

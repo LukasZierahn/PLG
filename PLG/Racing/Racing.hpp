@@ -10,7 +10,8 @@
 #define Racing_hpp
 
 #include <stdio.h>
-#include "Render.hpp"
+
+class Render;
 
 class Racing {
 private:

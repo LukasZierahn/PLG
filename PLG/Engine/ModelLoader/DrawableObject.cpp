@@ -15,6 +15,8 @@ DrawableObject::DrawableObject(Render* render) {
     this->render = render;
     MVPID = glGetUniformLocation(render->getMainProgram(), "MVP");
     MVPmatrix = mat4(1.0f);
+    
+    render->addDrawableObject(this);
 }
 
 void DrawableObject::ComputeMVPMatrix() {

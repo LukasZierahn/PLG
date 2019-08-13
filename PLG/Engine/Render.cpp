@@ -10,13 +10,15 @@
 
 #include "ColoredObject.hpp"
 #include "TexturedObject.hpp"
+#include "ModelLoader/ModelLoader.hpp"
+#include "Camera.hpp"
+
 
 void Render::InitGL() {
     // Initialise GLFW
     if (!glfwInit())
     {
         fprintf(stderr, "Failed to initialize GLFW\n");
-        getchar();
         return;
     }
     
@@ -30,7 +32,6 @@ void Render::InitGL() {
     window = glfwCreateWindow(width, height, "PLG", NULL, NULL);
     if (window == NULL) {
         fprintf(stderr, "Failed to create Window GLFW\n");
-        getchar();
 
         glfwTerminate();
         return;
@@ -40,7 +41,7 @@ void Render::InitGL() {
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "Failed to initialize GLEW\n");
-        getchar();
+
         glfwTerminate();
         return;
     }
@@ -56,8 +57,8 @@ void Render::InitGL() {
     // Accept fragment if it closer to the camera than the former one
     glDepthFunc(GL_LESS);
     
-    glGenVertexArrays(1, &VertexArrayID);
-    glBindVertexArray(VertexArrayID);
+    glGenVertexArrays(1, &vertexArrayID);
+    glBindVertexArray(vertexArrayID);
     
     mainProgram = glCreateProgram();
     GLuint VS_Id = LoadShader("shader/VS.GLSL", GL_VERTEX_SHADER);
@@ -83,6 +84,31 @@ void Render::InitGL() {
     
     glDeleteShader(VS_Id);
     glDeleteShader(FS_Id);
+    
+    
+    colordProgram = glCreateProgram();
+    GLuint colordVsId = LoadShader("shader/Colord_VS.GLSL", GL_VERTEX_SHADER);
+    GLuint colordFsId = LoadShader("shader/Colord_FS.GLSL", GL_FRAGMENT_SHADER);
+
+    glAttachShader(colordProgram, colordVsId);
+    glAttachShader(colordProgram, colordFsId);
+    glLinkProgram(colordProgram);
+    
+    glGetProgramiv(colordProgram, GL_LINK_STATUS, &result);
+    glGetProgramiv(colordProgram, GL_INFO_LOG_LENGTH, &infoLogLength);
+    if (infoLogLength > 0) {
+        vector<char> ProgramErrorMessage(infoLogLength+1);
+        glGetProgramInfoLog(mainProgram, infoLogLength, NULL, &ProgramErrorMessage[0]);
+        printf("%s\n", &ProgramErrorMessage[0]);
+    }
+    
+    
+    glDetachShader(colordProgram, colordVsId);
+    glDetachShader(colordProgram, colordFsId);
+    
+    glDeleteShader(colordVsId);
+    glDeleteShader(colordFsId);
+
 }
 
 Render::Render() {
@@ -95,14 +121,19 @@ Render::Render() {
 void Render::Draw() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glUseProgram(mainProgram);
     
     camera->UpdateMatricies();
     
+    glUseProgram(mainProgram);
     for (DrawableObject* drawObject : drawVector) {
         drawObject->Draw();
     }
     
+    glUseProgram(colordProgram);
+    for (DrawableObject* drawObject : coloredDrawVector) {
+        drawObject->Draw();
+    }
+
     // Swap buffers
     glfwSwapBuffers(window);
     glfwPollEvents();
@@ -143,7 +174,7 @@ GLuint Render::LoadShader(const char* path, GLenum type) {
 
 Render::~Render() {
     glDeleteProgram(mainProgram);
-    glDeleteVertexArrays(1, &VertexArrayID);
+    glDeleteVertexArrays(1, &vertexArrayID);
     
     delete modelLoader;
     delete camera;

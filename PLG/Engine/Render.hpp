@@ -10,11 +10,11 @@
 #define render_hpp
 
 #include "includeEngine.h"
-#include "ModelLoader/ModelLoader.hpp"
-#include "Camera.hpp"
-#include "ModelLoader/TexturedObject.hpp"
 
 class ColoredObject;
+class DrawableObject;
+class Camera;
+class ModelLoader;
 
 class Render {
 private:
@@ -24,12 +24,14 @@ private:
     ModelLoader* modelLoader;
     Camera* camera;
     
+    GLuint colordProgram;
+    vector<ColoredObject*> coloredDrawVector;
+    GLuint mainProgram;
     vector<DrawableObject*> drawVector;
-    
+
     GLFWwindow* window;
     
-    GLuint mainProgram;
-    GLuint VertexArrayID;
+    GLuint vertexArrayID;
     
     void InitGL();
     GLuint LoadShader(const char* path, GLenum type);
@@ -42,7 +44,8 @@ public:
     void Draw();
     
     void addDrawableObject(DrawableObject* drawObject) { drawVector.push_back(drawObject); }
-    
+    void addColordObject(ColoredObject* drawObject) { coloredDrawVector.push_back(drawObject); }
+
     int getHeight() { return height; }
     int getWidth() { return width; }
     GLuint getMainProgram() { return mainProgram; }

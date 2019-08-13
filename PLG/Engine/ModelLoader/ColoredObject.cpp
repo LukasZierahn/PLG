@@ -11,6 +11,7 @@
 #include "ColoredObject.hpp"
 
 ColoredObject::ColoredObject(Render* render) : DrawableObject(render) {
+    render->addColordObject(this);
 }
 
 void ColoredObject::setModelDataByKey(string key) {

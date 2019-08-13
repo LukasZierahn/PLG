@@ -13,6 +13,7 @@
 #include "TexturedObject.hpp"
 
 TexturedObject::TexturedObject(Render* render) : DrawableObject(render) {
+    render->addDrawableObject(this);
 }
 
 void TexturedObject::setModelDataByKey(string key) {

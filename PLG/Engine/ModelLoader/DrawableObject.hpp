@@ -31,6 +31,8 @@ public:
     
     virtual void Draw() { cout << "Drawable Object Draw function called!" << endl; }
     
+    void setPosition(vec3 newPosition) { position = newPosition; }
+    
     void ComputeMVPMatrix();
 };
 

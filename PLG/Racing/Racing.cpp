@@ -9,6 +9,7 @@
 #include "Render.hpp"
 #include "Camera.hpp"
 #include "TexturedObject.hpp"
+#include "ColoredObject.hpp"
 
 #include "Racing.hpp"
 
@@ -22,6 +23,10 @@ Racing::Racing() {
     TexturedObject* map = new TexturedObject(render);
     map->setModelDataByKey("plane");
     map->setTextureByKey("RaceTrack");
+    
+    ColoredObject* test = new ColoredObject(render);
+    test->setModelDataByKey("triangle");
+    test->setPosition(vec3(0, 0.01, 0));
 }
 
 void Racing::Mainloop() {

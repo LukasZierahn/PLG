@@ -10,14 +10,22 @@
 #define Racing_hpp
 
 #include <stdio.h>
+#include <vector>
+
+#define CAR_COUNT 20
+
+using namespace std;
 
 class Render;
 class Map;
+class RaceCar;
 
 class Racing {
 private:
     Render* render;
     Map* map;
+    
+    vector<RaceCar*> raceCarVec;
     
 public:
     Racing();

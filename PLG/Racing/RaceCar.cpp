@@ -12,8 +12,8 @@
 RaceCar::RaceCar(Render* render, vec3 position) {
     triangle = new ColoredObject(render);
     triangle->setModelDataByKey("triangle");
-    triangle->setPosition(position);
     triangle->setScale(CAR_SCALE);
+    triangle->setPosition(position);
 }
 
 

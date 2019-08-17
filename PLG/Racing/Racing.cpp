@@ -11,6 +11,7 @@
 #include "TexturedObject.hpp"
 #include "ColoredObject.hpp"
 #include "Map.hpp"
+#include "RaceCar.hpp"
 
 #include "Racing.hpp"
 
@@ -18,6 +19,10 @@ Racing::Racing() {
     render = new Render();
     
     map = new Map(render);
+    
+    for (int i = 0; i < CAR_COUNT; i++) {
+        raceCarVec.push_back(new RaceCar(render, vec3(1, 0.0001, 1)));
+    }
 }
 
 void Racing::Mainloop() {
@@ -31,6 +36,10 @@ void Racing::Mainloop() {
 Racing::~Racing() {
     glfwTerminate();
 
+    for (int i = 0; i < raceCarVec.size(); i++) {
+        delete raceCarVec[i];
+    }
+    
     delete map;
     delete render;
 }

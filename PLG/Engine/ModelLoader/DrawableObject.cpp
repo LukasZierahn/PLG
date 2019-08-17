@@ -18,10 +18,11 @@ DrawableObject::DrawableObject(Render* render) {
 }
 
 void DrawableObject::ComputeMVPMatrix() {
-    MVPmatrix = glm::scale(mat4(1.0f), scale);
+    MVPmatrix = glm::translate(mat4(1.0f), position);
     MVPmatrix = glm::rotate(MVPmatrix, rotation.x, vec3(1, 0, 0));
     MVPmatrix = glm::rotate(MVPmatrix, rotation.y, vec3(0, 1, 0));
     MVPmatrix = glm::rotate(MVPmatrix, rotation.z, vec3(0, 0, 1));
-    MVPmatrix = glm::translate(MVPmatrix, position);
+    MVPmatrix = glm::scale(MVPmatrix, scale);
+
     MVPmatrix = render->getCamera()->getJointMatrix() * MVPmatrix;
 }

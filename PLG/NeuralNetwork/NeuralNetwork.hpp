@@ -14,6 +14,8 @@ using namespace::std;
 
 class NeuralNetwork
 {
+    float score = 0.0f;
+    
     vector<int> nodeCount; //this is per layer
     vector<int> nodeCountSums; //this is summing up the nodes per layer
     
@@ -31,6 +33,9 @@ public:
     
     void Compute();
     void RandomizeValues();
+
+    void setScore(float score) { this->score = score; }
+    float getScore() { return score; }
 
     ~NeuralNetwork();
 };

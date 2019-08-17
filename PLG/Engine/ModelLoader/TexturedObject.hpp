@@ -25,7 +25,8 @@ public:
     
     void setModelDataByKey(string key);
     void setTextureByKey(string key);
-    
+    Texture* gettTexture() { return texture; };
+
     void Draw();
 };
 

@@ -12,10 +12,12 @@
 #include <stdio.h>
 
 class Render;
+class Map;
 
 class Racing {
 private:
     Render* render;
+    Map* map;
     
 public:
     Racing();

@@ -13,6 +13,8 @@
 class Texture {
     string key;
     
+    unsigned char* data = nullptr;
+    
     GLuint texture;
     
 public:
@@ -22,7 +24,7 @@ public:
     
     GLuint getTexture() { return texture; }
     
-    ~Texture() { glDeleteTextures(1, &texture); }
+    ~Texture();
 };
 
 #endif /* Texture_hpp */

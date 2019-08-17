@@ -10,23 +10,14 @@
 #include "Camera.hpp"
 #include "TexturedObject.hpp"
 #include "ColoredObject.hpp"
+#include "Map.hpp"
 
 #include "Racing.hpp"
 
 Racing::Racing() {
     render = new Render();
     
-    render->getCamera()->setPosition(vec3(0, 2.5, 0));
-    render->getCamera()->setDirection(vec3(0, -1, 0));
-    render->getCamera()->setUp(vec3(0, 0, 1));
-    
-    TexturedObject* map = new TexturedObject(render);
-    map->setModelDataByKey("plane");
-    map->setTextureByKey("RaceTrack");
-    
-    ColoredObject* test = new ColoredObject(render);
-    test->setModelDataByKey("triangle");
-    test->setPosition(vec3(0, 0.01, 0));
+    map = new Map(render);
 }
 
 void Racing::Mainloop() {
@@ -40,5 +31,6 @@ void Racing::Mainloop() {
 Racing::~Racing() {
     glfwTerminate();
 
+    delete map;
     delete render;
 }

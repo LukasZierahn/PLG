@@ -38,7 +38,7 @@ void TexturedObject::Draw() {
     
     // Bind our texture in Texture Unit 0
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture->getTexture());
+    glBindTexture(GL_TEXTURE_2D, texture->getTextureId());
     
     // 1rst attribute buffer: vertices
     glEnableVertexAttribArray(0);

@@ -15,6 +15,9 @@ class Texture {
     
     unsigned char* data = nullptr;
     
+    int width;
+    int height;
+    
     GLuint texture;
     
 public:
@@ -22,8 +25,11 @@ public:
     
     void LoadBMPFromPath(string path);
     
-    GLuint getTexture() { return texture; }
+    GLuint getTextureId() { return texture; }
     
+    int getWidth() { return width; }
+    int getHeight() { return height; }
+
     ~Texture();
 };
 

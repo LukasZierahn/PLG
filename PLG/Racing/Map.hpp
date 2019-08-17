@@ -10,15 +10,32 @@
 #define Map_hpp
 
 #include <stdio.h>
+#include "includeEngine.h"
 
 class Render;
 class TexturedObject;
+class Texture;
+class Pixel;
 
 class Map {
 private:
     TexturedObject* mapObject;
+    
+    int width;
+    int height;
+    
+    long mapDataLength;
+    GLubyte* mapData;
+    
 public:
     Map(Render* render);
+    
+    Pixel getPixel(int x, int y);
+    Pixel getPixel(long absolutePosition);
+
+    vec3 getStartPoint();
+    
+    ~Map();
 };
 
 #endif /* Map_hpp */

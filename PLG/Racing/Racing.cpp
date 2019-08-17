@@ -20,13 +20,18 @@ Racing::Racing() {
     
     map = new Map(render);
     
+    vec3 startingPositing = map->getStartPoint() + vec3(0, 0, 0);
     for (int i = 0; i < CAR_COUNT; i++) {
-        raceCarVec.push_back(new RaceCar(render, vec3(1, 0.0001, 1)));
+        raceCarVec.push_back(new RaceCar(render, startingPositing));
     }
 }
 
 void Racing::Mainloop() {
     do {
+        for (int i = 0; i < raceCarVec.size(); i++) {
+            raceCarVec[i]->Tick(10);
+        }
+        
         render->Draw();
     } 
     while(glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0 );

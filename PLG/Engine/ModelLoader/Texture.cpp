@@ -43,14 +43,13 @@ void Texture::LoadBMPFromPath(string path) {
     
     unsigned int dataPos;
     unsigned int imageSize;
-    unsigned int width, height;
     
     dataPos    = *(int*)&(header[0x0A]);
     imageSize  = *(int*)&(header[0x22]);
     width      = *(int*)&(header[0x12]);
     height     = *(int*)&(header[0x16]);
     
-    cout << width << "/" << height << endl;
+    printf("Reading in Texture %s, %d/%d %f mb\n", path.c_str(), width, height, width * height * 3 / 1000000.0f);
 
     if (imageSize == 0)    imageSize = width * height * 3;
     if (dataPos == 0)      dataPos = 54;

@@ -18,9 +18,9 @@ RaceCar::RaceCar(Render* render, vec3 position) {
 
 
 void RaceCar::Tick(int time) {
-    vec3 addingPosition = velocity;
+    vec3 addingPosition = vec3(-0.0001, 0, -0.0001);
     addingPosition *= time * VELOCITY_FACTOR;
-    triangle->addPosition(addingPosition);
+//    triangle->addPosition(addingPosition);
 }
 
 RaceCar::~RaceCar() {

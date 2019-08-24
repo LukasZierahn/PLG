@@ -11,20 +11,25 @@
 
 #include <stdio.h>
 #include "includeEngine.h"
+#include "TexCoord.hpp"
 
 class Pixel {
 public:
-    int x;
-    int y;
-
+    TexCoord texCoord;
+    
     vec3 position;
     
     GLubyte r;
     GLubyte g;
     GLubyte b;
     
+    int width;
+    int height;
+    
     Pixel(int x, int y, GLubyte* rgb);
+    Pixel(TexCoord texturePosition, GLubyte* rgb);
     Pixel(int x, int y, GLubyte* rgb, int width, int height);
+    Pixel(TexCoord texturePosition, GLubyte* rgb, int width, int height);
 };
 
 

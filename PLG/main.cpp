@@ -13,7 +13,7 @@
 #include "Racing/Racing.hpp"
 
 int main( void )
-{        
+{
     Racing racing = Racing();
     
     racing.Mainloop();

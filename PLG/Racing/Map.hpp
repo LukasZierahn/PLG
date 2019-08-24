@@ -16,6 +16,7 @@ class Render;
 class TexturedObject;
 class Texture;
 class Pixel;
+class TexCoord;
 
 class Map {
 private:
@@ -30,10 +31,12 @@ private:
 public:
     Map(Render* render);
     
+    Pixel getPixel(TexCoord texCoord);
     Pixel getPixel(int x, int y);
     Pixel getPixel(long absolutePosition);
-
-    vec3 getStartPoint();
+        
+    Pixel SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel));
+    Pixel getStartPoint();
     
     ~Map();
 };

@@ -36,24 +36,60 @@ Map::Map(Render* render) {
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, mapData);
 }
 
+Pixel Map::getPixel(int x, int y) {
+    return getPixel((y * width + x) * 3);
+}
+
+Pixel Map::getPixel(TexCoord texCoord) {
+    return getPixel(texCoord.x, texCoord.y);
+}
+
 Pixel Map::getPixel(long absolutePosition) {
     int x = (absolutePosition / 3) % width;
     int y = floor((absolutePosition / 3) / static_cast<float>(width));
     return Pixel(x, y, &mapData[absolutePosition], width, height);
 }
 
-vec3 Map::getStartPoint() {
+Pixel Map::getStartPoint() {
     for (long i = 0; i < mapDataLength; i += 3) {
         if (mapData[i] != 255 && mapData[i] != 0) {
             Pixel pixel = getPixel(i);
             
-            printf("found staring position %d/%d %f/%f\n", pixel.x, pixel.y, pixel.position.x, pixel.position.y);
-            return pixel.position;
+            printf("found starting position %d/%d %f/%f\n", pixel.texCoord.x, pixel.texCoord.y, pixel.position.x, pixel.position.z);
+            return pixel;
         }
     }
     
-    printf("failed to find start\n");
-    return vec3(0);
+    throw new runtime_error("failed to find start\n");
+}
+
+Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel)) {
+    const float sinDir = sin(direction);
+    const float cosDir = cos(direction);
+    
+    if (condition(getPixel(texCoord))) {
+        return getPixel(texCoord);
+    }
+    
+    int xSteps = 0;
+    int ySteps = 0;
+    while (texCoord.x + xSteps >= 0 && texCoord.x + xSteps < width &&
+           texCoord.y + ySteps >= 0 && texCoord.y + ySteps < height) {
+                
+        if (sinDir * (ySteps + 1) > cosDir * (xSteps + 1)) {
+            xSteps += sinDir > 0 ? 1 : -1;
+            if (condition(getPixel(texCoord.Offset(xSteps, ySteps)))) {
+                return getPixel(texCoord.Offset(xSteps, ySteps));
+            }
+        } else {
+            ySteps += cosDir > 0 ? 1 : -1;
+            if (condition(getPixel(texCoord.Offset(xSteps, ySteps)))) {
+                return getPixel(texCoord.Offset(xSteps, ySteps));
+            }
+        }
+    }
+    
+    throw new runtime_error("ray unsuccessful");
 }
 
 Map::~Map() {

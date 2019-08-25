@@ -38,6 +38,8 @@ public:
     void setScale(vec3 newScale) { scale = newScale; }
     void setScale(float newScale) { scale = vec3(newScale, newScale, newScale); }
     
+    void setRotation(vec3 newRotation) { rotation = newRotation; }
+    
     vec3 getPosition() { return position; }
 
     void ComputeMVPMatrix();

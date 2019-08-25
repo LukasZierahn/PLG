@@ -27,16 +27,27 @@ class NeuralNetwork
     vector<double> biases;
     vector<double> connections;
     
+    int currentInputNode = 0;
+    int currentOutputNode = 0;
 
 public:
     NeuralNetwork(vector<int> layerSetup);
     
     void Compute();
     void RandomizeValues();
-
+    
     void setScore(float score) { this->score = score; }
     float getScore() { return score; }
 
+    void setNode(int node, double value) { nodes[node] = value; }
+    
+    void resetCurrentInputNode() { currentInputNode = 0; }
+    void setNextInputNode(double value);
+    
+    void resetCurrentOutputNode() { currentOutputNode = 0; }
+    double getNextOutPutNode();
+
+    
     ~NeuralNetwork();
 };
 

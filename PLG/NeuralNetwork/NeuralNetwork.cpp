@@ -24,6 +24,9 @@ NeuralNetwork::NeuralNetwork(vector<int> layerSetup) {
         }
     }
     
+    nodes = vector<double>(totalNodeCount, 0);
+    biases = vector<double>(totalNodeCount, 0);
+    connections = vector<double>(totalConnectionCount, 0);
     srand(time(nullptr));
 }
 
@@ -63,6 +66,23 @@ void NeuralNetwork::RandomizeValues() {
     }
 }
 
+void NeuralNetwork::setNextInputNode(double value) {
+    if (currentInputNode > nodeCount[0]) {
+        throw new runtime_error("Tried to set input node after all input nodes have been set");
+    }
+    
+    setNode(currentInputNode, value);
+    currentInputNode++;
+}
+
+double NeuralNetwork::getNextOutPutNode() {
+    if (currentOutputNode > nodeCount[nodeCount.size() - 1]) {
+        throw new runtime_error("Tried to get output node after all output nodes have been gotten");
+    }
+    
+    currentOutputNode++;
+    return nodes[nodeCountSums[nodeCountSums.size() - 1] + currentOutputNode - 1];
+}
 
 NeuralNetwork::~NeuralNetwork() {
 }

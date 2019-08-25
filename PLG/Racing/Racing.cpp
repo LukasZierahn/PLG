@@ -13,6 +13,7 @@
 #include "Map.hpp"
 #include "RaceCar.hpp"
 #include "Pixel.hpp"
+#include "NeuralNetwork.hpp"
 
 #include "Racing.hpp"
 
@@ -21,10 +22,14 @@ Racing::Racing() {
     
     map = new Map(render);
     
+    vector<int> neuralLayerSetup;
+    neuralLayerSetup.push_back(CAR_NN_INPUT_NODES);
+    neuralLayerSetup.push_back(CAR_NN_OUTPUT_NODES);
+//    neuralLayerSetup.push_back(1);
+
     Pixel startingPositing = map->getStartPoint() ;
-    
     for (int i = 0; i < CAR_COUNT; i++) {
-        raceCarVec.push_back(new RaceCar(render, map, startingPositing.position));
+        raceCarVec.push_back(new RaceCar(render, map, startingPositing.position, neuralLayerSetup));
     }
     raceCarVec.shrink_to_fit();
 }

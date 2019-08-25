@@ -18,7 +18,7 @@
 #define CAR_NN_INPUT_NODES 8
 #define CAR_NN_OUTPUT_NODES 2
 
-#define VELOCITY_FACTOR 0.000001
+#define VELOCITY_FACTOR 0.00001
 #define ROTATION_FACTOR 0.005
 #define INERTIA_FACTOR 0.95f
 
@@ -28,7 +28,13 @@ class Map;
 class NeuralNetwork;
 
 class RaceCar {
+    bool finished = false;
+    
+    Render* render;
+    
     NeuralNetwork* neuralNet = nullptr;
+    double distanceTraveled = 0;
+    long timeTraveled = 0;
     
     ColoredObject* triangle;
     vec3 velocity = vec3(0, 0, 0);
@@ -44,6 +50,9 @@ public:
     NeuralNetwork* getNeuralNetwork() { return neuralNet; }
     
     void Tick(int time);
+    void Finish();
+    
+    bool getFinished() { return finished; }
     
     ~RaceCar();
 };

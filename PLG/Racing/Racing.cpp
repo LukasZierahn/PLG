@@ -37,7 +37,9 @@ Racing::Racing() {
 void Racing::Mainloop() {
     do {
         for (int i = 0; i < raceCarVec.size(); i++) {
-            raceCarVec[i]->Tick(10);
+            if (!raceCarVec[i]->getFinished()) {
+                raceCarVec[i]->Tick(10);
+            }
         }
 
         render->Draw();

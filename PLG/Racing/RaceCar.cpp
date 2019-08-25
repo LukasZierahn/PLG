@@ -6,17 +6,20 @@
 //  Copyright © 2019 Lukas Zierahn. All rights reserved.
 //
 
-#include "RaceCar.hpp"
 #include "ColoredObject.hpp"
 #include "Map.hpp"
 #include "Pixel.hpp"
 #include "NeuralNetwork.hpp"
+#include "Render.hpp"
+
+#include "RaceCar.hpp"
+
 
 bool IsBlack(Pixel input) {
     return input.r == 0 && input.g == 0 && input.b == 0;
 }
 
-RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetworkSetup): map(map) {
+RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetworkSetup): map(map), render(render) {
     neuralNet = new NeuralNetwork(neuralNetworkSetup);
     neuralNet->RandomizeValues();
     
@@ -33,6 +36,9 @@ RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetw
 }
 
 void RaceCar::Tick(int time) {
+    timeTraveled += time;
+    distanceTraveled += time * velocity.length();
+    
     neuralNet->resetCurrentInputNode();
     
     TexCoord position = TexCoord(triangle->getPosition(), map->getHeight(), map->getWidth());
@@ -41,7 +47,16 @@ void RaceCar::Tick(int time) {
     for (double dir : CAR_SENSORS) {
         Pixel rayPosition = map->SendRay(position, rotation + dir, IsBlack);
         vec3 relativePosition = rayPosition.position - triangle->getPosition();
-        neuralNet->setNextInputNode(sqrt(pow(relativePosition.x, 2) + pow(relativePosition.z, 2)));
+        neuralNet->setNextInputNode(relativePosition.length());
+        
+        if (i == 0) {
+            const TexCoord myTexPos = TexCoord(triangle->getPosition(), map->getHeight(), map->getWidth());
+            if (rayPosition.texCoord.x == myTexPos.x && rayPosition.texCoord.y == myTexPos.y) {
+                Finish();
+                return;
+            }
+        }
+        
         visionIndicators[i]->setPosition(rayPosition.position);
         i++;
     }
@@ -59,6 +74,17 @@ void RaceCar::Tick(int time) {
     addingPosition *= time * VELOCITY_FACTOR;
     triangle->addPosition(addingPosition);
     triangle->setRotation(vec3 (0, rotation, 0));
+}
+
+void RaceCar::Finish() {
+    neuralNet->setScore(distanceTraveled / timeTraveled);
+    
+    render->removeColordObject(triangle);
+    for (int i = 0; i < visionIndicators.size(); i++) {
+        render->removeColordObject(visionIndicators[i]);
+    }
+    
+    finished = true;
 }
 
 RaceCar::~RaceCar() {

@@ -178,8 +178,4 @@ Render::~Render() {
     
     delete modelLoader;
     delete camera;
-    
-    for (DrawableObject* drawObject : drawVector) {
-        delete drawObject;
-    }
 }

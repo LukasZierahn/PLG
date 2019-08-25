@@ -16,11 +16,6 @@
 
 #include "Racing.hpp"
 
-bool IsBlack(Pixel input) {
-//    printf("checking: %d, %d, %d %s\n", input.r, input.b, input.g, input.r == 0 && input.g == 0 && input.b == 0 ? "true" : "false");
-    return input.r == 0 && input.g == 0 && input.b == 0;
-}
-
 Racing::Racing() {
     render = new Render();
     
@@ -28,13 +23,10 @@ Racing::Racing() {
     
     Pixel startingPositing = map->getStartPoint() ;
     
-//    Pixel output = map->SendRay(startingPositing.texCoord, M_PI, IsBlack);
-    
-    printf("Ray Tracing Output: %d/%d\n", output.texCoord.x, output.texCoord.y);
-    
     for (int i = 0; i < CAR_COUNT; i++) {
-        raceCarVec.push_back(new RaceCar(render, startingPositing.position));
+        raceCarVec.push_back(new RaceCar(render, map, startingPositing.position));
     }
+    raceCarVec.shrink_to_fit();
 }
 
 void Racing::Mainloop() {
@@ -42,7 +34,7 @@ void Racing::Mainloop() {
         for (int i = 0; i < raceCarVec.size(); i++) {
             raceCarVec[i]->Tick(10);
         }
-        
+
         render->Draw();
     } 
     while(glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0 );

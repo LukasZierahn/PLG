@@ -38,6 +38,9 @@ public:
     Pixel SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel));
     Pixel getStartPoint();
     
+    int getHeight() { return height; }
+    int getWidth() { return width; }
+
     ~Map();
 };
 

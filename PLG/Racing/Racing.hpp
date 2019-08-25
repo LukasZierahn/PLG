@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <vector>
 
-#define CAR_COUNT 20
+#define CAR_COUNT 1
 
 using namespace std;
 

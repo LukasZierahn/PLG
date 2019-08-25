@@ -30,7 +30,6 @@ Map::Map(Render* render) {
     
     mapDataLength = width * height * 3;
     mapData = new GLubyte[mapDataLength];
-    cout << mapObject->getTexture()->getTextureId() << endl;
     
     glBindTexture(GL_TEXTURE_2D, mapObject->getTexture()->getTextureId());
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, mapData);
@@ -76,7 +75,7 @@ Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel))
     while (texCoord.x + xSteps >= 0 && texCoord.x + xSteps < width &&
            texCoord.y + ySteps >= 0 && texCoord.y + ySteps < height) {
                 
-        if (sinDir * (ySteps + 1) > cosDir * (xSteps + 1)) {
+        if (abs(sinDir * (ySteps + 1)) > abs(cosDir * (xSteps + 1))) {
             xSteps += sinDir > 0 ? 1 : -1;
             if (condition(getPixel(texCoord.Offset(xSteps, ySteps)))) {
                 return getPixel(texCoord.Offset(xSteps, ySteps));

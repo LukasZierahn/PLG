@@ -17,7 +17,13 @@ public:
     int x;
     int y;
     
-    TexCoord(vec3 pos) : TexCoord(pos.x, pos.z) {}
+    TexCoord(vec3 pos, int height, int width) {
+        const float tmpX = (pos.x + 1) / 2;
+        const float tmpY = (pos.z + 1) / 2;
+        
+        x = static_cast<int>(floor(tmpX * width));
+        y = static_cast<int>(floor(tmpY * height));
+    }
     TexCoord(int x, int y) : x(x), y(y) {}
     
     TexCoord Offset(int xOffset, int yOffset) {

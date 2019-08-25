@@ -14,16 +14,22 @@
 
 #define CAR_SCALE 0.25f
 #define VELOCITY_FACTOR 1
+#define CAR_SENSORS {0.0, M_PI * 0.125, M_PI * 0.25, M_PI * 0.5, M_PI, M_PI * 1.5, M_PI * 1.75, M_PI * 1.875}
 
 class ColoredObject;
 class Render;
+class Map;
 
 class RaceCar {
     ColoredObject* triangle;
     vec3 velocity = vec3(0.05, 0, 0);
     
+    vector<ColoredObject*> visionIndicators;
+    
+    Map* map;
+    
 public:
-    RaceCar(Render* render, vec3 position);
+    RaceCar(Render* render, Map* map, vec3 position);
     
     void Tick(int time);
     

@@ -31,10 +31,14 @@ public:
     
     virtual void Draw() { cout << "Drawable Object Draw function called!" << endl; }
     
+    Render* getRender() { return render; }
+    
     void setPosition(vec3 newPosition) { position = newPosition; }
     void addPosition(vec3 position) { this->position += position; }
     void setScale(vec3 newScale) { scale = newScale; }
     void setScale(float newScale) { scale = vec3(newScale, newScale, newScale); }
+    
+    vec3 getPosition() { return position; }
 
     void ComputeMVPMatrix();
 };

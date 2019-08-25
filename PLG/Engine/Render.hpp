@@ -43,16 +43,10 @@ public:
     
     void Draw();
     
-    void addDrawableObject(DrawableObject* drawObject) { drawVector.push_back(drawObject); }
-    void addColordObject(ColoredObject* drawObject) { coloredDrawVector.push_back(drawObject); }
+    void addDrawableObject(DrawableObject* drawObject);
+    void addColordObject(ColoredObject* coloredObject);
     
-    void removeColordObject(ColoredObject* drawObject) {
-        for (int i = coloredDrawVector.size() - 1; i >= 0; i--) {
-            if (coloredDrawVector[i] == drawObject) {
-                coloredDrawVector.erase(coloredDrawVector.begin() + i);
-            }
-        }
-    }
+    void removeColordObject(ColoredObject* drawObject);
 
     int getHeight() { return height; }
     int getWidth() { return width; }

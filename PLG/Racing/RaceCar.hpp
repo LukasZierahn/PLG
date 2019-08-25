@@ -49,6 +49,7 @@ public:
     
     NeuralNetwork* getNeuralNetwork() { return neuralNet; }
     
+    void Reset();
     void Tick(int time);
     void Finish();
     

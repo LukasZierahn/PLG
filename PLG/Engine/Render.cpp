@@ -111,6 +111,36 @@ void Render::InitGL() {
 
 }
 
+void Render::addDrawableObject(DrawableObject *drawObject) {
+    for (int i = 0; i < drawVector.size(); i++) {
+        if (drawVector[i] == drawObject) {
+            return;
+        }
+    }
+    
+    drawVector.push_back(drawObject);
+}
+
+void Render::addColordObject(ColoredObject *coloredObject) {
+    for (int i = 0; i < coloredDrawVector.size(); i++) {
+        if (coloredDrawVector[i] == coloredObject) {
+            return;
+        }
+    }
+    
+    coloredDrawVector.push_back(coloredObject);
+}
+
+
+void Render::removeColordObject(ColoredObject *drawObject) {
+    for (int i = coloredDrawVector.size() - 1; i >= 0; i--) {
+        if (coloredDrawVector[i] == drawObject) {
+            coloredDrawVector.erase(coloredDrawVector.begin() + i);
+            return;
+        }
+    }
+}
+
 Render::Render() {
     InitGL();
     

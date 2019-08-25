@@ -35,6 +35,11 @@ RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetw
     }
 }
 
+void RaceCar::Reset() {
+    timeTraveled = 0;
+    distanceTraveled = 0;
+}
+
 void RaceCar::Tick(int time) {
     timeTraveled += time;
     distanceTraveled += time * velocity.length();

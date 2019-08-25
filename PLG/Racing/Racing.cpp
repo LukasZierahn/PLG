@@ -17,35 +17,56 @@
 
 #include "Racing.hpp"
 
-Racing::Racing() {
+Racing::Racing(int carCount) {
     render = new Render();
     
     map = new Map(render);
     
-    vector<int> neuralLayerSetup;
-    neuralLayerSetup.push_back(CAR_NN_INPUT_NODES);
-    neuralLayerSetup.push_back(CAR_NN_OUTPUT_NODES);
-//    neuralLayerSetup.push_back(1);
-
-    Pixel startingPositing = map->getStartPoint() ;
-    for (int i = 0; i < CAR_COUNT; i++) {
-        raceCarVec.push_back(new RaceCar(render, map, startingPositing.position, neuralLayerSetup));
+    startingPosition = map->getStartPoint().position;
+    for (int i = 0; i < carCount; i++) {
+        raceCarVec.push_back(new RaceCar(render, map, startingPosition));
     }
     raceCarVec.shrink_to_fit();
 }
 
-void Racing::Mainloop() {
-    do {
+void Racing::setNeuralNetworks(vector<NeuralNetwork*> networks) {
+    for (int i = 0; i < raceCarVec.size(); i++) {
+        raceCarVec[i]->setNeuralNetwork(networks[i]);
+    }
+}
+
+vector<NeuralNetwork*> Racing::getNeuralNetworks() {
+    vector<NeuralNetwork*> output;
+    
+    for (RaceCar* raceCar : raceCarVec) {
+        output.push_back(raceCar->getNeuralNetwork());
+    }
+    
+    return output;
+}
+
+bool Racing::Compute() {
+    bool done = false;
+    while (!done && glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0) {
+        done = true;
         for (int i = 0; i < raceCarVec.size(); i++) {
             if (!raceCarVec[i]->getFinished()) {
-                raceCarVec[i]->Tick(10);
+                done = false;
+                raceCarVec[i]->Tick(TIME_STEPS);
             }
         }
-
+        
         render->Draw();
-    } 
-    while(glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0 );
+    }
+    
+    return !(glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0);
+}
 
+void Racing::Reset() {
+    for (int i = 0; i < raceCarVec.size(); i++) {
+        raceCarVec[i]->Reset();
+        raceCarVec[i]->setPosition(startingPosition);
+    }
 }
 
 Racing::~Racing() {

@@ -11,26 +11,38 @@
 
 #include <stdio.h>
 #include <vector>
-
-#define CAR_COUNT 1
-
 using namespace std;
 
+#include "NeuralNetworkScenario.hpp"
+
+#define TIME_STEPS 1
+
+
+class Pixel;
 class Render;
 class Map;
 class RaceCar;
 
-class Racing {
+class Racing : public NeuralNetworkScenario {
 private:
     Render* render;
+    
     Map* map;
+    
+    vec3 startingPosition;
     
     vector<RaceCar*> raceCarVec;
     
 public:
-    Racing();
+    Racing(int carCount);
     
-    void Mainloop();
+    void setNeuralNetworks(vector<NeuralNetwork*> Networks);
+    vector<NeuralNetwork*> getNeuralNetworks();
+    
+    bool Compute();
+    void Reset();
+    
+    vector<RaceCar*>* getRaceCarVec() { return &raceCarVec; }
     
     ~Racing();
 };

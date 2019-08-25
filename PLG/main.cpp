@@ -11,12 +11,20 @@
 
 #include "render.hpp"
 #include "Racing/Racing.hpp"
+#include "GeneticTrainer.hpp"
+#include "Racing/RaceCar.hpp"
 
 int main( void )
 {
-    Racing racing = Racing();
+    vector<int> neuralLayerSetup;
+    neuralLayerSetup.push_back(CAR_NN_INPUT_NODES);
+    neuralLayerSetup.push_back(CAR_NN_OUTPUT_NODES);
+
+    Racing racing = Racing(1);
+    GeneticTrainer trainer = GeneticTrainer(1, neuralLayerSetup, &racing);
     
-    racing.Mainloop();
+    
+    trainer.Mainloop();
     
     return 0;
 }

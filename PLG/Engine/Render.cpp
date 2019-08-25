@@ -121,7 +121,7 @@ void Render::addDrawableObject(DrawableObject *drawObject) {
     drawVector.push_back(drawObject);
 }
 
-void Render::addColordObject(ColoredObject *coloredObject) {
+void Render::addColoredObject(ColoredObject *coloredObject) {
     for (int i = 0; i < coloredDrawVector.size(); i++) {
         if (coloredDrawVector[i] == coloredObject) {
             return;

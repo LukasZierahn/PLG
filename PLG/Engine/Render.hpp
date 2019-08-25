@@ -44,7 +44,7 @@ public:
     void Draw();
     
     void addDrawableObject(DrawableObject* drawObject);
-    void addColordObject(ColoredObject* coloredObject);
+    void addColoredObject(ColoredObject* coloredObject);
     
     void removeColordObject(ColoredObject* drawObject);
 

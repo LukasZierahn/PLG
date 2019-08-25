@@ -14,19 +14,23 @@
 #include <vector>
 using namespace std;
 
-
 class NeuralNetwork;
+class NeuralNetworkScenario;
 
 class GeneticTrainer {
 private:
     int population;
+    int iteration = 0;
+    
+    NeuralNetworkScenario* scenario;
+    
     vector<NeuralNetwork*> networks;
     
 public:
     
-    GeneticTrainer(int population, vector<int> layerSetup);
+    GeneticTrainer(int population, vector<int> layerSetup, NeuralNetworkScenario* scenario);
     
-    
+    void Mainloop();
     
     ~GeneticTrainer();
 };

@@ -22,6 +22,8 @@
 #define ROTATION_FACTOR 0.005
 #define INERTIA_FACTOR 0.95f
 
+#define INITIAL_ORIENTATION -M_PI / 2
+
 class ColoredObject;
 class Render;
 class Map;
@@ -38,16 +40,19 @@ class RaceCar {
     
     ColoredObject* triangle;
     vec3 velocity = vec3(0, 0, 0);
-    float rotation = -M_PI / 2;
+    float rotation = INITIAL_ORIENTATION;
     
     vector<ColoredObject*> visionIndicators;
     
     Map* map;
     
 public:
-    RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetworkSetup);
+    RaceCar(Render* render, Map* map, vec3 position);
     
     NeuralNetwork* getNeuralNetwork() { return neuralNet; }
+    void setNeuralNetwork(NeuralNetwork* newNeuralNet) { neuralNet = newNeuralNet; }
+
+    void setPosition(vec3 newPosition);
     
     void Reset();
     void Tick(int time);

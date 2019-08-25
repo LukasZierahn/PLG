@@ -19,10 +19,7 @@ bool IsBlack(Pixel input) {
     return input.r == 0 && input.g == 0 && input.b == 0;
 }
 
-RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetworkSetup): map(map), render(render) {
-    neuralNet = new NeuralNetwork(neuralNetworkSetup);
-    neuralNet->RandomizeValues();
-    
+RaceCar::RaceCar(Render* render, Map* map, vec3 position): map(map), render(render) {
     triangle = new ColoredObject(render);
     triangle->setModelDataByKey("triangle");
     triangle->setScale(vec3(0.5 * CAR_SCALE, 1, 1 * CAR_SCALE));
@@ -38,6 +35,16 @@ RaceCar::RaceCar(Render* render, Map* map, vec3 position, vector<int> neuralNetw
 void RaceCar::Reset() {
     timeTraveled = 0;
     distanceTraveled = 0;
+    
+    finished = false;
+    
+    rotation = INITIAL_ORIENTATION;
+    velocity = vec3(0);
+    
+    render->addColoredObject(triangle);
+    for (int i = 0; i < visionIndicators.size(); i++) {
+        render->addColoredObject(visionIndicators[i]);
+    }
 }
 
 void RaceCar::Tick(int time) {
@@ -92,8 +99,11 @@ void RaceCar::Finish() {
     finished = true;
 }
 
+void RaceCar::setPosition(vec3 newPosition) {
+    triangle->setPosition(newPosition);
+}
+
 RaceCar::~RaceCar() {
-    delete neuralNet;
     delete triangle;
     
     for (int i = 0; i < visionIndicators.size(); i++) {

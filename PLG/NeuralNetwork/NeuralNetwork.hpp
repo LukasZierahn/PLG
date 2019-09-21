@@ -45,9 +45,12 @@ public:
     void setNextInputNode(double value);
     
     void resetCurrentOutputNode() { currentOutputNode = 0; }
-    double getNextOutPutNode();
+    double getNextOutputNode(bool stretch = false);
 
-    
+    vector<double>* getNodes() { return &nodes; };
+    vector<double>* getBiases() { return &biases; };
+    vector<double>* getConnections() { return &connections; };
+
     ~NeuralNetwork();
 };
 

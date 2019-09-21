@@ -19,10 +19,10 @@
 #define CAR_NN_OUTPUT_NODES 2
 
 #define VELOCITY_FACTOR 0.00001
-#define ROTATION_FACTOR 0.005
-#define INERTIA_FACTOR 0.95f
+#define ROTATION_FACTOR 0.01
+#define INERTIA_FACTOR 0.975f
 
-#define INITIAL_ORIENTATION -M_PI / 2
+#define INITIAL_ORIENTATION M_PI / 2
 
 class ColoredObject;
 class Render;

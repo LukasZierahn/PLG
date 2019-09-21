@@ -15,7 +15,7 @@ using namespace std;
 
 #include "NeuralNetworkScenario.hpp"
 
-#define TIME_STEPS 1
+#define TIME_STEPS 10
 
 
 class Pixel;

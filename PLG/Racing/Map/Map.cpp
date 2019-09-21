@@ -46,20 +46,67 @@ Pixel Map::getPixel(TexCoord texCoord) {
 Pixel Map::getPixel(long absolutePosition) {
     int x = (absolutePosition / 3) % width;
     int y = floor((absolutePosition / 3) / static_cast<float>(width));
-    return Pixel(x, y, &mapData[absolutePosition], width, height);
+    return Pixel(this, x, y, &mapData[absolutePosition]);
 }
 
 Pixel Map::getStartPoint() {
+    if (startPoint != nullptr) {
+        return *startPoint;
+    }
+    
+    TexCoord pos = TexCoord(0, 0);
+    for (Pixel pixel : (*getStartLine())) {
+        pos.x += pixel.texCoord.x;
+        pos.y += pixel.texCoord.y;
+    }
+    
+    pos.x = round(static_cast<float>(pos.x) / getStartLine()->size());
+    pos.y = round(static_cast<float>(pos.y) / getStartLine()->size());
+
+    startPoint = new Pixel(getPixel(pos));
+    return *startPoint;
+}
+
+vector<Pixel>* Map::getStartLine() {
+    if (startLine.size()) {
+        return &startLine;
+    }
+    
     for (long i = 0; i < mapDataLength; i += 3) {
         if (mapData[i] != 255 && mapData[i] != 0) {
-            Pixel pixel = getPixel(i);
-            
-            printf("found starting position %d/%d %f/%f\n", pixel.texCoord.x, pixel.texCoord.y, pixel.position.x, pixel.position.z);
-            return pixel;
+            startLine.push_back(getPixel(i));
         }
     }
     
-    throw new runtime_error("failed to find start\n");
+    if (!startLine.size()) {
+        throw new runtime_error("failed to find startline\n");
+    }
+    
+    return &startLine;
+}
+
+bool isFirstEdgePixel(Pixel pixel) {
+    if (pixel.IsWhite(pixel)) return false;
+    
+    Pixel startLineEnd = pixel.FindNeighbour(&pixel.IsColoured);
+    return !(startLineEnd.texCoord.x == pixel.texCoord.x && startLineEnd.texCoord.y == pixel.texCoord.y);
+}
+
+vector<vector<Pixel*>>* Map::getEdges() {
+    if (edges.size()) {
+        return &edges;
+    }
+    
+    int startLineEndIndexes [] = {0, (int)getStartLine()->size()};
+    for (int i = 0; i < 2; i++) {
+        Pixel startLineEnd = startLine[startLineEndIndexes[i]];
+        
+        Pixel* firstEdgePixel = new Pixel(startLineEnd.FindNeighbour(isFirstEdgePixel));
+        edges[i].push_back(firstEdgePixel);
+        firstEdgePixel->RecursiveAddAllNeighbours(&edges[i], firstEdgePixel->texCoord);
+    }
+    
+    return &edges;
 }
 
 Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel)) {
@@ -93,4 +140,12 @@ Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel))
 
 Map::~Map() {
     delete [] mapData;
+    
+    delete startPoint;
+    
+    for (vector<Pixel*> edge : edges) {
+        for (Pixel* edgeNode : edge) {
+            delete edgeNode;
+        }
+    }
 }

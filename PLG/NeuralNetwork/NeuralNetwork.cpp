@@ -27,7 +27,6 @@ NeuralNetwork::NeuralNetwork(vector<int> layerSetup) {
     nodes = vector<double>(totalNodeCount, 0);
     biases = vector<double>(totalNodeCount, 0);
     connections = vector<double>(totalConnectionCount, 0);
-    srand(time(nullptr));
 }
 
 void NeuralNetwork::Compute() {
@@ -44,7 +43,7 @@ void NeuralNetwork::Compute() {
             sum = -this->biases[biasPos];
             biasPos++;
             
-            for (int k = 0; k < this->nodeCount[i]; k++) {
+            for (int k = 0; k < this->nodeCount[i - 1]; k++) {
                 sum -= this->nodes[this->nodeCountSums[i - 1] + k] * this->connections[connectionPos];
                 connectionPos++;
             }
@@ -56,13 +55,13 @@ void NeuralNetwork::Compute() {
 }
 
 void NeuralNetwork::RandomizeValues() {
-    for (int i = 0; i < this->totalNodeCount; i++) {
-        this->nodes[i] = rand()/(RAND_MAX + 1u);
-        this->biases[i] = rand()/(RAND_MAX + 1u);
+    for (int i = 0; i < totalNodeCount; i++) {
+        nodes[i] = rand()/(double)(RAND_MAX + 1u);
+        biases[i] = (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
     }
         
-    for (int i = 0; i < this->totalConnectionCount; i++) {
-        this->connections[i] = rand()/(RAND_MAX + 1u);
+    for (int i = 0; i < totalConnectionCount; i++) {
+        connections[i] = (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
     }
 }
 
@@ -75,13 +74,17 @@ void NeuralNetwork::setNextInputNode(double value) {
     currentInputNode++;
 }
 
-double NeuralNetwork::getNextOutPutNode() {
+double NeuralNetwork::getNextOutputNode(bool stretch) {
     if (currentOutputNode > nodeCount[nodeCount.size() - 1]) {
         throw new runtime_error("Tried to get output node after all output nodes have been gotten");
     }
     
     currentOutputNode++;
-    return nodes[nodeCountSums[nodeCountSums.size() - 1] + currentOutputNode - 1];
+    if (stretch) {
+        return 2 * (nodes[nodeCountSums[nodeCountSums.size() - 1] + currentOutputNode - 1]) - 1;
+    } else {
+        return nodes[nodeCountSums[nodeCountSums.size() - 1] + currentOutputNode - 1];
+    }
 }
 
 NeuralNetwork::~NeuralNetwork() {

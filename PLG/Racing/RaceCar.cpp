@@ -11,12 +11,13 @@
 #include "Pixel.hpp"
 #include "NeuralNetwork.hpp"
 #include "Render.hpp"
+#include "HelperFunction.h"
 
 #include "RaceCar.hpp"
 
 
 bool IsBlack(Pixel input) {
-    return input.r == 0 && input.g == 0 && input.b == 0;
+    return input.IsBlack(input);
 }
 
 RaceCar::RaceCar(Render* render, Map* map, vec3 position): map(map), render(render) {
@@ -49,7 +50,15 @@ void RaceCar::Reset() {
 
 void RaceCar::Tick(int time) {
     timeTraveled += time;
-    distanceTraveled += time * velocity.length();
+    
+    if (timeTraveled % (1000 * time) == 0) {
+        if (abs(rotation) > 3 * 2 * M_PI) {
+            Finish();
+            neuralNet->setScore(0);
+        } else {
+            rotation -= M_PI * 2 * floor((rotation / (M_PI * 2)));
+        }
+    }
     
     neuralNet->resetCurrentInputNode();
     
@@ -59,7 +68,7 @@ void RaceCar::Tick(int time) {
     for (double dir : CAR_SENSORS) {
         Pixel rayPosition = map->SendRay(position, rotation + dir, IsBlack);
         vec3 relativePosition = rayPosition.position - triangle->getPosition();
-        neuralNet->setNextInputNode(relativePosition.length());
+        neuralNet->setNextInputNode(length(relativePosition));
         
         if (i == 0) {
             const TexCoord myTexPos = TexCoord(triangle->getPosition(), map->getHeight(), map->getWidth());
@@ -76,11 +85,20 @@ void RaceCar::Tick(int time) {
     neuralNet->Compute();
     neuralNet->resetCurrentOutputNode();
     
-    rotation += time * ROTATION_FACTOR * neuralNet->getNextOutPutNode();
+    const double rotationNode = neuralNet->getNextOutputNode(true);
+    rotation += time * ROTATION_FACTOR * rotationNode;
     
     velocity *= INERTIA_FACTOR;
-    const double neuralNetAcceleration = neuralNet->getNextOutPutNode();
+    const double neuralNetAcceleration = neuralNet->getNextOutputNode(true);
     velocity += vec3(neuralNetAcceleration * sin(rotation), 0, neuralNetAcceleration * cos(rotation));
+    
+    if (neuralNetAcceleration > 0) {
+        distanceTraveled += time * length(velocity);
+    }
+
+    if (length(velocity) < 0.01) {
+        Finish();
+    }
     
     vec3 addingPosition = velocity;
     addingPosition *= time * VELOCITY_FACTOR;
@@ -89,7 +107,8 @@ void RaceCar::Tick(int time) {
 }
 
 void RaceCar::Finish() {
-    neuralNet->setScore(distanceTraveled / timeTraveled);
+//    neuralNet->setScore(pow(distanceTraveled, 1.5) / timeTraveled);
+    neuralNet->setScore(distanceTraveled);
     
     render->removeColordObject(triangle);
     for (int i = 0; i < visionIndicators.size(); i++) {

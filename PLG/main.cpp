@@ -18,10 +18,13 @@ int main( void )
 {
     vector<int> neuralLayerSetup;
     neuralLayerSetup.push_back(CAR_NN_INPUT_NODES);
+    neuralLayerSetup.push_back(5);
     neuralLayerSetup.push_back(CAR_NN_OUTPUT_NODES);
 
-    Racing racing = Racing(1);
-    GeneticTrainer trainer = GeneticTrainer(1, neuralLayerSetup, &racing);
+    const int population = 20;
+    
+    Racing racing = Racing(population);
+    GeneticTrainer trainer = GeneticTrainer(population, neuralLayerSetup, &racing);
     
     
     trainer.Mainloop();

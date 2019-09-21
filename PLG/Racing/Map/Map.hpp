@@ -28,6 +28,10 @@ private:
     long mapDataLength;
     GLubyte* mapData;
     
+    Pixel* startPoint = nullptr;
+    vector<Pixel> startLine;
+    vector<vector<Pixel*>> edges;
+    
 public:
     Map(Render* render);
     
@@ -36,7 +40,10 @@ public:
     Pixel getPixel(long absolutePosition);
         
     Pixel SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel));
+    
     Pixel getStartPoint();
+    vector<Pixel>* getStartLine();
+    vector<vector<Pixel*>>* getEdges();
     
     int getHeight() { return height; }
     int getWidth() { return width; }

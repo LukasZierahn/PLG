@@ -15,7 +15,7 @@
 #include "Map.hpp"
 
 
-Map::Map(Render* render) {
+Map::Map(Render* render): render(render) {
     render->getCamera()->setPosition(vec3(0, 2.5, 0));
     render->getCamera()->setDirection(vec3(0, -1, 0));
     render->getCamera()->setUp(vec3(0, 0, 1));
@@ -97,14 +97,20 @@ vector<vector<Pixel*>>* Map::getEdges() {
         return &edges;
     }
     
-    int startLineEndIndexes [] = {0, (int)getStartLine()->size()};
+    edges.push_back(vector<Pixel*>());
+    edges.push_back(vector<Pixel*>());
+
+    int startLineEndIndexes [] = {0, (int)getStartLine()->size() - 1};
     for (int i = 0; i < 2; i++) {
         Pixel startLineEnd = startLine[startLineEndIndexes[i]];
+        startLineEnd.EditPixelOnMap(255, 0, 0);
         
         Pixel* firstEdgePixel = new Pixel(startLineEnd.FindNeighbour(isFirstEdgePixel));
         edges[i].push_back(firstEdgePixel);
         firstEdgePixel->RecursiveAddAllNeighbours(&edges[i], firstEdgePixel->texCoord);
     }
+    
+    getMapObject()->getTexture()->GenerateTexture();
     
     return &edges;
 }

@@ -26,7 +26,6 @@ int main( void )
     Racing racing = Racing(population);
     GeneticTrainer trainer = GeneticTrainer(population, neuralLayerSetup, &racing);
     
-    
     trainer.Mainloop();
     
     return 0;

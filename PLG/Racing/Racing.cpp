@@ -21,6 +21,7 @@ Racing::Racing(int carCount) {
     render = new Render();
     
     map = new Map(render);
+    map->getEdges();
     
     startingPosition = map->getStartPoint().position;
     for (int i = 0; i < carCount; i++) {

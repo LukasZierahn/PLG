@@ -11,6 +11,7 @@
 
 Texture::Texture(string key, string path) {
     this->key = key;
+    glGenTextures(1, &texture);
     LoadBMPFromPath(path);
 }
 
@@ -59,8 +60,10 @@ void Texture::LoadBMPFromPath(string path) {
     fread(data, 1, imageSize, file);
     fclose (file);
     
-    glGenTextures(1, &texture);
-    
+    GenerateTexture();
+}
+
+void Texture::GenerateTexture() {
     glBindTexture(GL_TEXTURE_2D, texture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
     
@@ -68,8 +71,17 @@ void Texture::LoadBMPFromPath(string path) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
+    
     glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+void Texture::EditPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b) {
+    long absolutePosition = (width * y + x) * 3;
+    
+    //this is stored BGR so be aware
+    data[absolutePosition] = b;
+    data[absolutePosition + 1] = g;
+    data[absolutePosition + 2] = r;
 }
 
 Texture::~Texture() {

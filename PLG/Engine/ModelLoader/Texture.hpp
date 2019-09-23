@@ -24,6 +24,9 @@ public:
     Texture(string key, string path);
     
     void LoadBMPFromPath(string path);
+    void GenerateTexture();
+    
+    void EditPixel(int x, int y, unsigned char r, unsigned char g, unsigned char b);
     
     GLuint getTextureId() { return texture; }
     

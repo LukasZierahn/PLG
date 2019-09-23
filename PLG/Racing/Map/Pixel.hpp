@@ -35,10 +35,14 @@ public:
     
     Pixel(Map* map, int x, int y, GLubyte* rgb);
     Pixel(Map* map, TexCoord texturePosition, GLubyte* rgb);
+    Pixel(Map* map, TexCoord texturePosition, GLubyte r, GLubyte g, GLubyte b);
+    Pixel(Pixel* pixel);
     
     int CountNeighbours(bool(*condition)(Pixel));
     Pixel FindNeighbour(bool(*condition)(Pixel));
     void RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord previousNode);
+    
+    void EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b);
     
     static bool IsWhite(Pixel pixel) { return pixel.r == 255 && pixel.g == 255 && pixel.b == 255; }
     static bool IsBlack(Pixel pixel) { return pixel.r == 0 && pixel.g == 0 && pixel.b == 0; }

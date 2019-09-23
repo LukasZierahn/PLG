@@ -14,12 +14,15 @@
 
 class Render;
 class TexturedObject;
+class ColoredObject;
 class Texture;
 class Pixel;
 class TexCoord;
 
 class Map {
 private:
+    Render* render;
+    
     TexturedObject* mapObject;
     
     int width;
@@ -47,6 +50,8 @@ public:
     
     int getHeight() { return height; }
     int getWidth() { return width; }
+    
+    TexturedObject* getMapObject() { return mapObject; }
 
     ~Map();
 };

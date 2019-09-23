@@ -6,6 +6,8 @@
 //  Copyright © 2019 Lukas Zierahn. All rights reserved.
 //
 #include "Map.hpp"
+#include "TexturedObject.hpp"
+#include "Texture.hpp"
 
 #include "Pixel.hpp"
 
@@ -14,10 +16,11 @@ bool Pixel::IsInBounds(TexCoord texCoord) {
     || texCoord.x >= width || texCoord.x < 0;
 }
 
-Pixel::Pixel(Map* map, int x, int y, GLubyte* rgb): Pixel(map, TexCoord(x, y), rgb) {
-}
+Pixel::Pixel(Map* map, int x, int y, GLubyte* rgb): Pixel(map, TexCoord(x, y), rgb) {}
 
-Pixel::Pixel(Map* map, TexCoord texturePosition, GLubyte* rgb): map(map), texCoord(texturePosition), r(rgb[0]), g(rgb[1]), b(rgb[2]) {
+Pixel::Pixel(Map* map, TexCoord texturePosition, GLubyte* rgb): Pixel(map, texturePosition, rgb[0], rgb[1], rgb[2]) {}
+
+Pixel::Pixel(Map* map, TexCoord texturePosition, GLubyte r, GLubyte g, GLubyte b): map(map), texCoord(texturePosition), r(r), g(g), b(b) {
     this->width = map->getWidth();
     this->height = map->getHeight();
     
@@ -27,10 +30,12 @@ Pixel::Pixel(Map* map, TexCoord texturePosition, GLubyte* rgb): map(map), texCoo
     position.y = 0;
 }
 
+Pixel::Pixel(Pixel* pixel): Pixel(pixel->map, pixel->texCoord, pixel->r, pixel->g, pixel->b) {}
+
 int Pixel::CountNeighbours(bool(*condition)(Pixel)) {
     int totalCount = 0;
-    for (int checkX = 0; checkX < 3; checkX++) {
-        for (int checkY = 0; checkY < 3; checkY++) {
+    for (int checkX = -1; checkX < 2; checkX++) {
+        for (int checkY = -1; checkY < 2; checkY++) {
             
             if (checkX == 0 && checkY == 0) continue;
             
@@ -66,17 +71,25 @@ Pixel Pixel::FindNeighbour(bool(*condition)(Pixel)) {
 }
 
 void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord previousNode) {
-    for (int checkX = 0; checkX < 3; checkX++) {
-        for (int checkY = 0; checkY < 3; checkY++) {
-            TexCoord position = texCoord.Offset(checkX, checkY);
+    EditPixelOnMap(255, 0, 0);
+    
+    for (int checkX = -1; checkX < 2; checkX++) {
+        for (int checkY = -1; checkY < 2; checkY++) {
             
-            if (previousNode.x != position.x && previousNode.y != position.y) {
-                Pixel* neighbour = new Pixel(map->getPixel(position));
-                if (neighbour->CountNeighbours(&neighbour->IsWhite) == 1) {
-                    addingTarget->push_back(neighbour);
-                    neighbour->RecursiveAddAllNeighbours(addingTarget, texCoord);
-                }
+            if (checkX == 0 && checkY == 0) continue;
+
+            TexCoord newPosition = texCoord.Offset(checkX, checkY);
+            
+            Pixel* neighbour = new Pixel(map->getPixel(newPosition));
+            cout << neighbour->CountNeighbours(&neighbour->IsWhite) << endl;
+            if (neighbour->CountNeighbours(&neighbour->IsWhite) >= 1) {
+                addingTarget->push_back(neighbour);
+                neighbour->RecursiveAddAllNeighbours(addingTarget, texCoord);
             }
         }
     }
+}
+
+void Pixel::EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b) {
+    map->getMapObject()->getTexture()->EditPixel(texCoord.x, texCoord.y, r, g, b);
 }

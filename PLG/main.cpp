@@ -13,6 +13,7 @@
 #include "Racing/Racing.hpp"
 #include "GeneticTrainer.hpp"
 #include "Racing/RaceCar.hpp"
+#include "Racing/Map/Map.hpp"
 
 int main( void )
 {
@@ -25,7 +26,7 @@ int main( void )
     
     Racing racing = Racing(population);
     GeneticTrainer trainer = GeneticTrainer(population, neuralLayerSetup, &racing);
-    
+        
     trainer.Mainloop();
     
     return 0;

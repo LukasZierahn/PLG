@@ -21,7 +21,6 @@ Racing::Racing(int carCount) {
     render = new Render();
     
     map = new Map(render);
-    map->getEdges();
     
     startingPosition = map->getStartPoint().position;
     for (int i = 0; i < carCount; i++) {
@@ -49,6 +48,8 @@ vector<NeuralNetwork*> Racing::getNeuralNetworks() {
 bool Racing::Compute() {
     bool done = false;
     while (!done && glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0) {
+        map->getEdges();
+        
         done = true;
         for (int i = 0; i < raceCarVec.size(); i++) {
             if (!raceCarVec[i]->getFinished()) {

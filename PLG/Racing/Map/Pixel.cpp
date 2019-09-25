@@ -9,11 +9,13 @@
 #include "TexturedObject.hpp"
 #include "Texture.hpp"
 
+#include "Render.hpp"
+
 #include "Pixel.hpp"
 
 bool Pixel::IsInBounds(TexCoord texCoord) {
-    return texCoord.y >= height || texCoord.y < 0
-    || texCoord.x >= width || texCoord.x < 0;
+    return texCoord.y < height || texCoord.y >= 0
+    || texCoord.x < width || texCoord.x >= 0;
 }
 
 Pixel::Pixel(Map* map, int x, int y, GLubyte* rgb): Pixel(map, TexCoord(x, y), rgb) {}
@@ -52,8 +54,8 @@ int Pixel::CountNeighbours(bool(*condition)(Pixel)) {
 }
 
 Pixel Pixel::FindNeighbour(bool(*condition)(Pixel)) {
-    for (int checkX = 0; checkX < 3; checkX++) {
-        for (int checkY = 0; checkY < 3; checkY++) {
+    for (int checkX = -1; checkX < 2; checkX++) {
+        for (int checkY = -1; checkY < 2; checkY++) {
             
             if (checkX == 0 && checkY == 0) continue;
             
@@ -80,11 +82,22 @@ void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord pre
 
             TexCoord newPosition = texCoord.Offset(checkX, checkY);
             
-            Pixel* neighbour = new Pixel(map->getPixel(newPosition));
-            cout << neighbour->CountNeighbours(&neighbour->IsWhite) << endl;
-            if (neighbour->CountNeighbours(&neighbour->IsWhite) >= 1) {
-                addingTarget->push_back(neighbour);
-                neighbour->RecursiveAddAllNeighbours(addingTarget, texCoord);
+            if (newPosition.x == previousNode.x && newPosition.y == previousNode.y) continue;
+            
+            bool duplicate = false;
+            for (Pixel* addedPixel : *addingTarget) {
+                if (addedPixel->texCoord.x == newPosition.x && addedPixel->texCoord.y == newPosition.y) {
+                    duplicate = true;
+                    break;
+                }
+            }
+            
+            Pixel neighbour = map->getPixel(newPosition);
+            if (neighbour.CountNeighbours(&neighbour.IsWhite) >= 1 && neighbour.IsBlack(neighbour) && !duplicate) {
+                addingTarget->push_back(new Pixel(neighbour));
+                                
+                neighbour.RecursiveAddAllNeighbours(addingTarget, texCoord);
+                return;
             }
         }
     }

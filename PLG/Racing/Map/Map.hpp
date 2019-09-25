@@ -38,6 +38,8 @@ private:
 public:
     Map(Render* render);
     
+    Render* getRender() { return render; }
+    
     Pixel getPixel(TexCoord texCoord);
     Pixel getPixel(int x, int y);
     Pixel getPixel(long absolutePosition);

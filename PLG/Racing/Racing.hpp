@@ -43,6 +43,7 @@ public:
     void Reset();
     
     vector<RaceCar*>* getRaceCarVec() { return &raceCarVec; }
+    Map* getMap() { return map; }
     
     ~Racing();
 };

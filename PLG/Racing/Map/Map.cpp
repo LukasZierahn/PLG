@@ -86,7 +86,7 @@ vector<Pixel>* Map::getStartLine() {
 }
 
 bool isFirstEdgePixel(Pixel pixel) {
-    if (pixel.IsWhite(pixel)) return false;
+    if (!pixel.IsBlack(pixel)) return false;
     
     Pixel startLineEnd = pixel.FindNeighbour(&pixel.IsColoured);
     return !(startLineEnd.texCoord.x == pixel.texCoord.x && startLineEnd.texCoord.y == pixel.texCoord.y);
@@ -105,7 +105,10 @@ vector<vector<Pixel*>>* Map::getEdges() {
         Pixel startLineEnd = startLine[startLineEndIndexes[i]];
         startLineEnd.EditPixelOnMap(255, 0, 0);
         
+        cout << startLineEnd.texCoord.x << "/" << 1024 - startLineEnd.texCoord.y << endl;
+        
         Pixel* firstEdgePixel = new Pixel(startLineEnd.FindNeighbour(isFirstEdgePixel));
+        cout << firstEdgePixel->texCoord.x << "/" << 1024 - firstEdgePixel->texCoord.y << endl;
         edges[i].push_back(firstEdgePixel);
         firstEdgePixel->RecursiveAddAllNeighbours(&edges[i], firstEdgePixel->texCoord);
     }

@@ -107,8 +107,9 @@ void RaceCar::Tick(int time) {
 }
 
 void RaceCar::Finish() {
-//    neuralNet->setScore(pow(distanceTraveled, 1.5) / timeTraveled);
-    neuralNet->setScore(distanceTraveled);
+    
+    float percentageDone = map->getProgress(triangle->getPosition());
+    neuralNet->setScore(percentageDone);
     
     render->removeColordObject(triangle);
     for (int i = 0; i < visionIndicators.size(); i++) {

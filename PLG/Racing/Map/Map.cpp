@@ -88,7 +88,7 @@ vector<Pixel>* Map::getStartLine() {
 bool isFirstEdgePixel(Pixel pixel) {
     if (!pixel.IsBlack(pixel)) return false;
     
-    Pixel startLineEnd = pixel.FindNeighbour(&pixel.IsColoured);
+    Pixel startLineEnd = pixel.FindNeighbour(&Pixel::IsColoured);
     return !(startLineEnd.texCoord.x == pixel.texCoord.x && startLineEnd.texCoord.y == pixel.texCoord.y);
 }
 
@@ -110,7 +110,7 @@ vector<vector<Pixel*>>* Map::getEdges() {
         Pixel* firstEdgePixel = new Pixel(startLineEnd.FindNeighbour(isFirstEdgePixel));
         cout << firstEdgePixel->texCoord.x << "/" << 1024 - firstEdgePixel->texCoord.y << endl;
         edges[i].push_back(firstEdgePixel);
-        firstEdgePixel->RecursiveAddAllNeighbours(&edges[i], firstEdgePixel->texCoord);
+        firstEdgePixel->RecursiveAddAllNeighbours(&edges[i], 0, i, firstEdgePixel->texCoord);
     }
     
     getMapObject()->getTexture()->GenerateTexture();
@@ -145,6 +145,22 @@ Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel))
     }
     
     throw new runtime_error("ray unsuccessful");
+}
+
+float Map::getProgress(vec3 position) {
+    float scores [] = {0.0f, 0.0f};
+    
+    for (int i = 0; i < 2; i++) {
+        float smallestDistance = MAXFLOAT;
+        for (auto pixel : edges[i]) {
+            if (distance(pixel->position, position) <= smallestDistance) {
+                smallestDistance = distance(pixel->position, position);
+                scores[i] = pixel->getEdgePercent();
+            }
+        }
+    }
+    
+    return (scores[0] + scores[1]) / 2.0f;
 }
 
 Map::~Map() {

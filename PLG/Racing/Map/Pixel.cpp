@@ -72,8 +72,10 @@ Pixel Pixel::FindNeighbour(bool(*condition)(Pixel)) {
     return Pixel(map, -1, -1, colourData);
 }
 
-void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord previousNode) {
+void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, int edgeDepth, int edgeId, TexCoord previousNode) {
     EditPixelOnMap(255, 0, 0);
+    this->edgeId = edgeId;
+    this->edgeDepth = edgeDepth;
     
     for (int checkX = -1; checkX < 2; checkX++) {
         for (int checkY = -1; checkY < 2; checkY++) {
@@ -96,11 +98,21 @@ void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord pre
             if (neighbour.CountNeighbours(&neighbour.IsWhite) >= 1 && neighbour.IsBlack(neighbour) && !duplicate) {
                 addingTarget->push_back(new Pixel(neighbour));
                                 
-                neighbour.RecursiveAddAllNeighbours(addingTarget, texCoord);
+                (*addingTarget)[addingTarget->size() - 1]->RecursiveAddAllNeighbours(addingTarget, edgeDepth + 1, edgeId, texCoord);
                 return;
             }
         }
     }
+}
+
+float Pixel::getEdgePercent() {
+    if (edgeId == -1 || edgeDepth == -1) {
+        return -1;
+    }
+    
+    if (edgeDepth * 1.0f / map->getEdgeCount(edgeId) >= 0.5) return 0.0f;
+    
+    return edgeDepth * 1.0f / map->getEdgeCount(edgeId);
 }
 
 void Pixel::EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b) {

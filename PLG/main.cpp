@@ -19,7 +19,7 @@ int main( void )
 {
     vector<int> neuralLayerSetup;
     neuralLayerSetup.push_back(CAR_NN_INPUT_NODES);
-    neuralLayerSetup.push_back(5);
+//    neuralLayerSetup.push_back(5);
     neuralLayerSetup.push_back(CAR_NN_OUTPUT_NODES);
 
     const int population = 20;

@@ -18,6 +18,8 @@ class Map;
 class Pixel {
 private:
     Map* map;
+    int edgeDepth = -1;
+    int edgeId = -1;
     
     bool IsInBounds(TexCoord texcoord);
     
@@ -40,7 +42,9 @@ public:
     
     int CountNeighbours(bool(*condition)(Pixel));
     Pixel FindNeighbour(bool(*condition)(Pixel));
-    void RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, TexCoord previousNode);
+    void RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, int edgeDepth, int edgeId, TexCoord previousNode);
+    
+    float getEdgePercent();
     
     void EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b);
     

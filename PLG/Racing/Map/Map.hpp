@@ -50,6 +50,9 @@ public:
     vector<Pixel>* getStartLine();
     vector<vector<Pixel*>>* getEdges();
     
+    int getEdgeCount(int id) { return edges[id].size(); }
+    float getProgress(vec3 position);
+    
     int getHeight() { return height; }
     int getWidth() { return width; }
     

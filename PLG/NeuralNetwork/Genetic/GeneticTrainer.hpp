@@ -25,10 +25,13 @@ private:
     int population;
     int iteration = 0;
     
+    const int keptPopulation = 5;
+    
     double highscore = 0;
     double averageScore = 0;
     int lastImprovement = 0;
-    
+    int improvementDelta = 0;
+
     NeuralNetworkScenario* scenario;
     
     vector<NeuralNetwork*> networks;
@@ -39,7 +42,9 @@ public:
     
     void Mainloop();
     
-    void MutateNetwork(NeuralNetwork* target, NeuralNetwork* source);
+    float RequiredChange();
+        
+    void MutateNetwork(NeuralNetwork* target, NeuralNetwork* source, double connectionChance, double BasisChance);
     void CombineNetworks(NeuralNetwork* target, NeuralNetwork* source1, NeuralNetwork* source2);
     
     ~GeneticTrainer();

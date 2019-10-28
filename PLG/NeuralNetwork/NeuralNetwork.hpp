@@ -46,6 +46,8 @@ public:
     
     void resetCurrentOutputNode() { currentOutputNode = 0; }
     double getNextOutputNode(bool stretch = false);
+    
+    double DistanceSquared(NeuralNetwork* neuralNet);
 
     vector<double>* getNodes() { return &nodes; };
     vector<double>* getBiases() { return &biases; };

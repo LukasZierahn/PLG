@@ -87,5 +87,19 @@ double NeuralNetwork::getNextOutputNode(bool stretch) {
     }
 }
 
+double NeuralNetwork::DistanceSquared(NeuralNetwork* neuralNet) {
+    double distanceSum = 0;
+    
+    for (int i = 0; i < totalNodeCount; i++) {
+        distanceSum += pow(biases[i] - neuralNet->biases[i], 2);
+    }
+    
+    for (int i = 0; i < totalConnectionCount; i++) {
+        distanceSum += pow(connections[i] - neuralNet->connections[i], 2);
+    }
+    
+    return distanceSum;
+}
+
 NeuralNetwork::~NeuralNetwork() {
 }

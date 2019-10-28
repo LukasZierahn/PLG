@@ -33,6 +33,18 @@ RaceCar::RaceCar(Render* render, Map* map, vec3 position): map(map), render(rend
     }
 }
 
+void RaceCar::CheckLapProgress() {
+    float percent = map->getProgress(triangle->getPosition());
+    
+    if (percent < 0.70 && percent > 0.30) {
+        passedHalfway = true;
+    }
+    
+    if ((percent > 0.995 || percent < 0.005) && passedHalfway) {
+        Finish(1.0f + (1000.0f / timeTraveled));
+    }
+}
+
 void RaceCar::Reset() {
     timeTraveled = 0;
     distanceTraveled = 0;
@@ -51,6 +63,7 @@ void RaceCar::Reset() {
 void RaceCar::Tick(int time) {
     timeTraveled += time;
     
+    //killing spinners
     if (timeTraveled % (1000 * time) == 0) {
         if (abs(rotation) > 3 * 2 * M_PI) {
             Finish();
@@ -59,6 +72,17 @@ void RaceCar::Tick(int time) {
             rotation -= M_PI * 2 * floor((rotation / (M_PI * 2)));
         }
     }
+    
+    //killing slowpokes
+    if (timeTraveled == 1000 * time) {
+        float progress = map->getProgress(triangle->getPosition());
+        
+        if (progress < 0.01f || progress > 0.99f) {
+            Finish();
+        }
+    }
+    
+//    CheckLapProgress();
     
     neuralNet->resetCurrentInputNode();
     
@@ -96,6 +120,7 @@ void RaceCar::Tick(int time) {
         distanceTraveled += time * length(velocity);
     }
 
+    //killing slowpokes
     if (length(velocity) < 0.01) {
         Finish();
     }
@@ -106,10 +131,8 @@ void RaceCar::Tick(int time) {
     triangle->setRotation(vec3 (0, rotation, 0));
 }
 
-void RaceCar::Finish() {
-    
-    float percentageDone = map->getProgress(triangle->getPosition());
-    neuralNet->setScore(percentageDone);
+void RaceCar::Finish(float score) {
+    neuralNet->setScore(score);
     
     render->removeColordObject(triangle);
     for (int i = 0; i < visionIndicators.size(); i++) {
@@ -117,6 +140,12 @@ void RaceCar::Finish() {
     }
     
     finished = true;
+}
+
+void RaceCar::Finish() {
+    float score = map->getProgress(triangle->getPosition());
+        
+    Finish(score > 0.6f && !passedHalfway ? 0.0f : score);
 }
 
 void RaceCar::setPosition(vec3 newPosition) {

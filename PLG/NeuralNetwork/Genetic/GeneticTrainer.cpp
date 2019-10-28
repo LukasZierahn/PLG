@@ -22,6 +22,14 @@ GeneticTrainer::GeneticTrainer(int population, vector<int> layerSetup, NeuralNet
     scenario->setNeuralNetworks(networks);
 }
 
+float GeneticTrainer::RequiredChange() {
+    
+    float result = improvementDelta * 0.3f < 1 ? 1: pow(improvementDelta * 0.3f, 2);
+    result = result > 25 ? 25 : result;
+    
+    return result;
+}
+
 bool isBigger(NeuralNetwork* A, NeuralNetwork* B) {
     return A->getScore() > B->getScore();
 }
@@ -29,6 +37,7 @@ bool isBigger(NeuralNetwork* A, NeuralNetwork* B) {
 void GeneticTrainer::Mainloop() {
     while(true) {
         iteration++;
+        improvementDelta = iteration - lastImprovement;
         
         if (scenario->Compute()) {
             break;
@@ -48,20 +57,30 @@ void GeneticTrainer::Mainloop() {
         }
         averageScore /= results.size();
 
+        printf("Iteration %d, Score %f/%f, Last Improvement %d/%d, Required Difference: %f\n", iteration, highscore, averageScore, lastImprovement, improvementDelta, RequiredChange());
         for (int i = 0; i < results.size(); i++) {
-            printf("Car %d, result: %f\n", i, results[i]->getScore());
+            printf("Car %d, result: %f, distance: %f\n", i, results[i]->getScore(), results[i]->DistanceSquared(results[0]));
         }
-        printf("Iteration %d, Score %f/%f, Last Improvement %d\n", iteration, highscore, averageScore, lastImprovement);
-
+        printf("\n");
         
-        for (int i = 5; i < 10; i++) {
-            MutateNetwork(results[i], results[i - 5]);
-        }
         
-        for (int i = 10; i < 20; i++) {
-            MutateNetwork(results[i], results[i - 10]);
-        }
+        int offset = keptPopulation;
+        for (int i = offset; i < offset + 15; i++) {
+            int repeatIterations = 1;
+            repeat:;
+            
+            //            MutateNetwork(results[i], results[i - 5], repeatIterations * improvementDelta * 0.1f, repeatIterations * improvementDelta * 0.05);
+            MutateNetwork(results[i], results[(i - offset) % keptPopulation], CONNECTION_MUTATION_CHANCE, BIASIS_MUTATION_CHANCE);
 
+            for (int j = 0; j < keptPopulation; j++) {
+                if (results[i]->DistanceSquared(results[j]) < RequiredChange() && repeatIterations < 1000) {
+                    repeatIterations++;
+                    goto repeat;
+                }
+            }
+        }
+        offset += 15;
+        
 //        for (int i = 10; i < results.size(); i++) {
 //            MutateNetwork(results[i], results[i - 10]);
 //        }
@@ -87,13 +106,13 @@ void GeneticTrainer::CombineNetworks(NeuralNetwork* target, NeuralNetwork* sourc
     }
 }
 
-void GeneticTrainer::MutateNetwork(NeuralNetwork* target, NeuralNetwork* source) {
+void GeneticTrainer::MutateNetwork(NeuralNetwork* target, NeuralNetwork* source, double connectionChance, double BasisChance) {
     vector<double>* connectionsTarget = target->getConnections();
     vector<double>* connectionsSource = source->getConnections();
 
     for (long i = 0; i < connectionsTarget->size(); i++) {
-        if (rand()/(double)(RAND_MAX + 1u) < CONNECTION_MUTATION_CHANCE) {
-            (*connectionsTarget)[i] = (*connectionsSource)[i] + (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
+        if (rand()/(double)(RAND_MAX + 1u) < connectionChance) {
+            (*connectionsTarget)[i] = (*connectionsSource)[i] + 2 * (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
         } else {
             (*connectionsTarget)[i] = (*connectionsSource)[i];
         }
@@ -102,8 +121,8 @@ void GeneticTrainer::MutateNetwork(NeuralNetwork* target, NeuralNetwork* source)
     vector<double>* biasesTarget = target->getBiases();
     vector<double>* biasesSource = source->getBiases();
     for (long i = 0; i < biasesTarget->size(); i++) {
-        if (rand()/(double)(RAND_MAX + 1u) < BIASIS_MUTATION_CHANCE) {
-            (*biasesTarget)[i] = (*biasesSource)[i] + (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
+        if (rand()/(double)(RAND_MAX + 1u) < BasisChance) {
+            (*biasesTarget)[i] = (*biasesSource)[i] + 2 * (2 * (rand()/(double)(RAND_MAX + 1u)) - 1);
         } else {
             (*biasesTarget)[i] = (*biasesSource)[i];
         }

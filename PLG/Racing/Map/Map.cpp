@@ -160,6 +160,12 @@ float Map::getProgress(vec3 position) {
         }
     }
     
+    
+    //if we are at the finish and the algorithm picks one point cloes to 1 on one side and another close to 0 on the other, thats problems
+    if (abs(scores[0] - scores[1]) > 0.1) {
+        return scores[0];
+    }
+    
     return (scores[0] + scores[1]) / 2.0f;
 }
 

@@ -38,6 +38,8 @@ class RaceCar {
     double distanceTraveled = 0;
     long timeTraveled = 0;
     
+    bool passedHalfway = false;
+    
     ColoredObject* triangle;
     vec3 velocity = vec3(0, 0, 0);
     float rotation = INITIAL_ORIENTATION;
@@ -54,10 +56,13 @@ public:
 
     void setPosition(vec3 newPosition);
     
+    void CheckLapProgress();
+    
     void Reset();
     void Tick(int time);
     void Finish();
-    
+    void Finish(float percentage);
+
     bool getFinished() { return finished; }
     
     ~RaceCar();

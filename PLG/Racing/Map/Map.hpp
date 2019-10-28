@@ -32,6 +32,7 @@ private:
     GLubyte* mapData;
     
     Pixel* startPoint = nullptr;
+        
     vector<Pixel> startLine;
     vector<vector<Pixel*>> edges;
     

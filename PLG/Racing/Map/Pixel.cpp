@@ -109,9 +109,7 @@ float Pixel::getEdgePercent() {
     if (edgeId == -1 || edgeDepth == -1) {
         return -1;
     }
-    
-    if (edgeDepth * 1.0f / map->getEdgeCount(edgeId) >= 0.5) return 0.0f;
-    
+        
     return edgeDepth * 1.0f / map->getEdgeCount(edgeId);
 }
 

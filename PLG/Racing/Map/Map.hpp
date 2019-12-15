@@ -10,6 +10,8 @@
 #define Map_hpp
 
 #include <stdio.h>
+#include <string>
+#include <map>
 #include "includeEngine.h"
 
 class Render;
@@ -32,8 +34,13 @@ private:
     GLubyte* mapData;
     
     Pixel* startPoint = nullptr;
-        
-    vector<Pixel> startLine;
+    
+    vector<Pixel*> pixelVec;
+    int getPixelPosition(int x, int y) {
+        return x + y * width;
+    }
+    
+    vector<Pixel*> startLine;
     vector<vector<Pixel*>> edges;
     
 public:
@@ -41,14 +48,14 @@ public:
     
     Render* getRender() { return render; }
     
-    Pixel getPixel(TexCoord texCoord);
-    Pixel getPixel(int x, int y);
-    Pixel getPixel(long absolutePosition);
-        
-    Pixel SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel));
+    Pixel* getPixel(TexCoord texCoord);
+    Pixel* getPixel(int x, int y);
+    Pixel* getPixel(long absolutePosition);
     
-    Pixel getStartPoint();
-    vector<Pixel>* getStartLine();
+    Pixel* SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel*));
+    
+    Pixel* getStartPoint();
+    vector<Pixel*>* getStartLine();
     vector<vector<Pixel*>>* getEdges();
     
     int getEdgeCount(int id) { return edges[id].size(); }

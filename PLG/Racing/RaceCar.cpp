@@ -16,8 +16,8 @@
 #include "RaceCar.hpp"
 
 
-bool IsBlack(Pixel input) {
-    return input.IsBlack(input);
+bool IsBlack(Pixel* input) {
+    return input->IsBlack(input);
 }
 
 RaceCar::RaceCar(Render* render, Map* map, vec3 position): map(map), render(render) {
@@ -90,19 +90,19 @@ void RaceCar::Tick(int time) {
     
     int i = 0;
     for (double dir : CAR_SENSORS) {
-        Pixel rayPosition = map->SendRay(position, rotation + dir, IsBlack);
-        vec3 relativePosition = rayPosition.position - triangle->getPosition();
+        Pixel* rayPosition = map->SendRay(position, rotation + dir, IsBlack);
+        vec3 relativePosition = rayPosition->position - triangle->getPosition();
         neuralNet->setNextInputNode(length(relativePosition));
         
         if (i == 0) {
             const TexCoord myTexPos = TexCoord(triangle->getPosition(), map->getHeight(), map->getWidth());
-            if (rayPosition.texCoord.x == myTexPos.x && rayPosition.texCoord.y == myTexPos.y) {
+            if (rayPosition->texCoord.x == myTexPos.x && rayPosition->texCoord.y == myTexPos.y) {
                 Finish();
                 return;
             }
         }
         
-        visionIndicators[i]->setPosition(rayPosition.position);
+        visionIndicators[i]->setPosition(rayPosition->position);
         i++;
     }
     

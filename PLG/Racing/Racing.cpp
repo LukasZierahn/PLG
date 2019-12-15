@@ -22,7 +22,7 @@ Racing::Racing(int carCount) {
     
     map = new Map(render);
     
-    startingPosition = map->getStartPoint().position;
+    startingPosition = map->getStartPoint()->position;
     for (int i = 0; i < carCount; i++) {
         raceCarVec.push_back(new RaceCar(render, map, startingPosition));
     }

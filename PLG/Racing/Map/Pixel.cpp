@@ -34,7 +34,7 @@ Pixel::Pixel(Map* map, TexCoord texturePosition, GLubyte r, GLubyte g, GLubyte b
 
 Pixel::Pixel(Pixel* pixel): Pixel(pixel->map, pixel->texCoord, pixel->r, pixel->g, pixel->b) {}
 
-int Pixel::CountNeighbours(bool(*condition)(Pixel)) {
+int Pixel::CountNeighbours(bool(*condition)(Pixel*)) {
     int totalCount = 0;
     for (int checkX = -1; checkX < 2; checkX++) {
         for (int checkY = -1; checkY < 2; checkY++) {
@@ -42,7 +42,7 @@ int Pixel::CountNeighbours(bool(*condition)(Pixel)) {
             if (checkX == 0 && checkY == 0) continue;
             
             if (IsInBounds(texCoord.Offset(checkX, checkY))) {
-                Pixel neighbour = map->getPixel(texCoord.Offset(checkX, checkY));
+                Pixel* neighbour = map->getPixel(texCoord.Offset(checkX, checkY));
                 if (condition(neighbour)) {
                     totalCount++;
                 }
@@ -53,14 +53,14 @@ int Pixel::CountNeighbours(bool(*condition)(Pixel)) {
     return totalCount;
 }
 
-Pixel Pixel::FindNeighbour(bool(*condition)(Pixel)) {
+Pixel* Pixel::FindNeighbour(bool(*condition)(Pixel*)) {
     for (int checkX = -1; checkX < 2; checkX++) {
         for (int checkY = -1; checkY < 2; checkY++) {
             
             if (checkX == 0 && checkY == 0) continue;
             
             if (IsInBounds(texCoord.Offset(checkX, checkY))) {
-                Pixel neighbour = map->getPixel(texCoord.Offset(checkX, checkY));
+                Pixel* neighbour = map->getPixel(texCoord.Offset(checkX, checkY));
                 if (condition(neighbour)) {
                     return neighbour;
                 }
@@ -68,8 +68,7 @@ Pixel Pixel::FindNeighbour(bool(*condition)(Pixel)) {
         }
     }
     
-    GLubyte colourData [] = {0, 0, 0};
-    return Pixel(map, -1, -1, colourData);
+    return map->getStartPoint();
 }
 
 void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, int edgeDepth, int edgeId, TexCoord previousNode) {
@@ -94,9 +93,9 @@ void Pixel::RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, int edgeDept
                 }
             }
             
-            Pixel neighbour = map->getPixel(newPosition);
-            if (neighbour.CountNeighbours(&neighbour.IsWhite) >= 1 && neighbour.IsBlack(neighbour) && !duplicate) {
-                addingTarget->push_back(new Pixel(neighbour));
+            Pixel* neighbour = map->getPixel(newPosition);
+            if (neighbour->CountNeighbours(&neighbour->IsWhite) >= 1 && neighbour->IsBlack(neighbour) && !duplicate) {
+                addingTarget->push_back(neighbour);
                                 
                 (*addingTarget)[addingTarget->size() - 1]->RecursiveAddAllNeighbours(addingTarget, edgeDepth + 1, edgeId, texCoord);
                 return;

@@ -27,6 +27,7 @@ Map::Map(Render* render): render(render) {
     
     width = mapObject->getTexture()->getWidth();
     height = mapObject->getTexture()->getHeight();
+    pixelVec = vector<Pixel*>(width * height, nullptr);
     
     mapDataLength = width * height * 3;
     mapData = new GLubyte[mapDataLength];
@@ -35,23 +36,29 @@ Map::Map(Render* render): render(render) {
     glGetTexImage(GL_TEXTURE_2D, 0, GL_RGB, GL_UNSIGNED_BYTE, mapData);
 }
 
-Pixel Map::getPixel(int x, int y) {
-    return getPixel((y * width + x) * 3);
+Pixel* Map::getPixel(int x, int y) {
+    int pixelPos = getPixelPosition(x, y);
+    Pixel* pix = pixelVec.at(pixelPos);
+
+    if (pix != nullptr) {
+        return pix;
+    }
+    
+    pixelVec[pixelPos] = new Pixel(this, x, y, &mapData[pixelPos * 3]);
+    return pixelVec[pixelPos];
 }
 
-Pixel Map::getPixel(TexCoord texCoord) {
+Pixel* Map::getPixel(TexCoord texCoord) {
     return getPixel(texCoord.x, texCoord.y);
 }
 
-Pixel Map::getPixel(long absolutePosition) {
-    int x = (absolutePosition / 3) % width;
-    int y = floor((absolutePosition / 3) / static_cast<float>(width));
-    return Pixel(this, x, y, &mapData[absolutePosition]);
+Pixel* Map::getPixel(long absolutePosition) {
+    return getPixel((absolutePosition / 3) % width, floor(absolutePosition / 3) / width);
 }
 
-Pixel Map::getStartPoint() {
+Pixel* Map::getStartPoint() {
     if (startPoint != nullptr) {
-        return *startPoint;
+        return startPoint;
     }
     
     TexCoord pos = TexCoord(0, 0);
@@ -63,11 +70,11 @@ Pixel Map::getStartPoint() {
     pos.x = round(static_cast<float>(pos.x) / getStartLine()->size());
     pos.y = round(static_cast<float>(pos.y) / getStartLine()->size());
 
-    startPoint = new Pixel(getPixel(pos));
-    return *startPoint;
+    startPoint = getPixel(pos);
+    return startPoint;
 }
 
-vector<Pixel>* Map::getStartLine() {
+vector<Pixel*>* Map::getStartLine() {
     if (startLine.size()) {
         return &startLine;
     }
@@ -85,11 +92,11 @@ vector<Pixel>* Map::getStartLine() {
     return &startLine;
 }
 
-bool isFirstEdgePixel(Pixel pixel) {
-    if (!pixel.IsBlack(pixel)) return false;
+bool isFirstEdgePixel(Pixel* pixel) {
+    if (!pixel->IsBlack(pixel)) return false;
     
-    Pixel startLineEnd = pixel.FindNeighbour(&Pixel::IsColoured);
-    return !(startLineEnd.texCoord.x == pixel.texCoord.x && startLineEnd.texCoord.y == pixel.texCoord.y);
+    Pixel* startLineEnd = pixel->FindNeighbour(&Pixel::IsColoured);
+    return !(startLineEnd->texCoord.x == pixel->texCoord.x && startLineEnd->texCoord.y == pixel->texCoord.y);
 }
 
 vector<vector<Pixel*>>* Map::getEdges() {
@@ -118,7 +125,7 @@ vector<vector<Pixel*>>* Map::getEdges() {
     return &edges;
 }
 
-Pixel Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel)) {
+Pixel* Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel*)) {
     const float sinDir = sin(direction);
     const float cosDir = cos(direction);
     
@@ -171,12 +178,10 @@ float Map::getProgress(vec3 position) {
 
 Map::~Map() {
     delete [] mapData;
-    
-    delete startPoint;
-    
-    for (vector<Pixel*> edge : edges) {
-        for (Pixel* edgeNode : edge) {
-            delete edgeNode;
+        
+    for (auto pixel : pixelVec) {
+        if (pixel) {
+            delete pixel;
         }
     }
 }

@@ -48,6 +48,7 @@ public:
     
     Render* getRender() { return render; }
     
+    Pixel* getPixel(vec3 position);
     Pixel* getPixel(TexCoord texCoord);
     Pixel* getPixel(int x, int y);
     Pixel* getPixel(long absolutePosition);
@@ -63,7 +64,7 @@ public:
     
     int getHeight() { return height; }
     int getWidth() { return width; }
-    
+        
     TexturedObject* getMapObject() { return mapObject; }
 
     ~Map();

@@ -17,8 +17,10 @@ class NeuralNetwork;
 
 class NeuralNetworkScenario {
 public:
+    
+    virtual void removeAllNetworks() { throw new runtime_error("Called virtual function removeAllNetworks"); }
+    virtual void addNetworks(vector<NeuralNetwork*> networks) { throw new runtime_error("Called virtual function addNetworks"); }
     virtual void setNeuralNetworks(vector<NeuralNetwork*> networks) { throw new runtime_error("Called virtual function networks"); }
-    virtual vector<NeuralNetwork*> getNeuralNetworks() { throw new runtime_error("Called virtual function getNeuralNetworks"); }
     
     virtual bool Compute() { throw new runtime_error("Called virtual function Compute"); }
     

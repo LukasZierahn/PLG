@@ -12,14 +12,23 @@
 #include "includeEngine.h"
 #include "DrawableObject.hpp"
 
+
+class ColorData;
+
 class ColoredObject : public DrawableObject{
+    Render* render;
+    
+    ColorData* colorData;
+    
 public:
     ColoredObject(Render* render);
     
     void setModelDataByKey(string key);
+    ColorData* getColorData() { return colorData; }
     
     void Draw();
 
+    ~ColoredObject();
 };
 
 #endif /* ColoredObject_hpp */

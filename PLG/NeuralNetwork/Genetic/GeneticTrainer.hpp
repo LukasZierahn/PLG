@@ -14,38 +14,36 @@
 #include <vector>
 using namespace std;
 
-#define CONNECTION_MUTATION_CHANCE 0.1
-#define BIASIS_MUTATION_CHANCE 0.05
-
 class NeuralNetwork;
 class NeuralNetworkScenario;
+class Branch;
+
+#define INITIAL_BRANCHES 3
+
+#define BRANCH_CREATION_THRESHOLD 0.3
 
 class GeneticTrainer {
 private:
+    vector<int> layerSetup;
+    
     int population;
     int iteration = 0;
     
     const int keptPopulation = 5;
     
-    double highscore = 0;
-    double averageScore = 0;
-    int lastImprovement = 0;
-    int improvementDelta = 0;
-
     NeuralNetworkScenario* scenario;
     
-    vector<NeuralNetwork*> networks;
-    
+    vector<Branch*> branches;
+
 public:
     
     GeneticTrainer(int population, vector<int> layerSetup, NeuralNetworkScenario* scenario);
     
-    void Mainloop();
+    void addBranch(NeuralNetwork* initialNetwork);
     
-    float RequiredChange();
-        
-    void MutateNetwork(NeuralNetwork* target, NeuralNetwork* source, double connectionChance, double BasisChance);
-    void CombineNetworks(NeuralNetwork* target, NeuralNetwork* source1, NeuralNetwork* source2);
+    void Mainloop();
+                
+    NeuralNetwork* CombineNetworks(NeuralNetwork* source1, NeuralNetwork* source2);
     
     ~GeneticTrainer();
 };

@@ -6,9 +6,13 @@
 //  Copyright © 2019 Lukas Zierahn. All rights reserved.
 //
 
-#include "ModelLoader.hpp"
-#include "Texture.hpp"
 #include <stdio.h>
+#include <vector>
+
+#include "Texture.hpp"
+#include "ModelData.hpp"
+
+#include "ModelLoader.hpp"
 
 ModelLoader::ModelLoader(Render* render) {
     this->render = render;
@@ -336,11 +340,7 @@ ModelLoader::~ModelLoader() {
         if (entry.second->hasUVs) {
             glDeleteBuffers(1, &entry.second->uvBuffer);
         }
-        
-        if (entry.second->hasColor) {
-            glDeleteBuffers(1, &entry.second->colorBuffer);
-        }
-        
+                
         delete entry.second;
     }
     
@@ -435,12 +435,6 @@ void ModelLoader::LoadHardcodedModels() {
     glGenBuffers(1, &cube->vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, cube->vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &cube->colorBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, cube->colorBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(g_color_buffer_data), g_color_buffer_data, GL_STATIC_DRAW);
-    cube->hasColor = true;
-    
     cube->vertexCount = 12 * 3;
     
     modelDataMap["cube"] = cube;
@@ -454,23 +448,10 @@ void ModelLoader::LoadHardcodedModels() {
         0.0f, 0.0f, 0.5f,
     };
     
-    // One color for each vertex. They were generated randomly.
-    static const GLfloat colorBufferDataTriangle[] = {
-        0.7f,  0.3f,  0.3f,
-        0.7f,  0.3f,  0.3f,
-        0.7f,  0.3f,  0.3f,
-    };
-    
     glGenBuffers(1, &triangle->vertexBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, triangle->vertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertexBufferDataTriangle), vertexBufferDataTriangle, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &triangle->colorBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, triangle->colorBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colorBufferDataTriangle), colorBufferDataTriangle, GL_STATIC_DRAW);
-    triangle->hasColor = true;
-    
     triangle->vertexCount = 3;
-    
+        
     modelDataMap["triangle"] = triangle;
 }

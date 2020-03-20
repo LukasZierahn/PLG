@@ -15,8 +15,6 @@ using namespace std;
 
 #include "NeuralNetworkScenario.hpp"
 
-#define TIME_STEPS 10
-
 
 class Pixel;
 class Render;
@@ -36,6 +34,8 @@ private:
 public:
     Racing(int carCount);
     
+    void removeAllNetworks();
+    void addNetworks(vector<NeuralNetwork*> networks);
     void setNeuralNetworks(vector<NeuralNetwork*> Networks);
     vector<NeuralNetwork*> getNeuralNetworks();
     

@@ -11,8 +11,7 @@
 
 #include "DrawableObject.hpp"
 
-DrawableObject::DrawableObject(Render* render) {
-    this->render = render;
+DrawableObject::DrawableObject(Render* render): render(render) {
     MVPID = glGetUniformLocation(render->getMainProgram(), "MVP");
     MVPmatrix = mat4(1.0f);
 }

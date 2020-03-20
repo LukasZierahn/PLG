@@ -112,6 +112,34 @@ float Pixel::getEdgePercent() {
     return edgeDepth * 1.0f / map->getEdgeCount(edgeId);
 }
 
+float Pixel::getScore() {
+    if (score != -1) {
+        return score;
+    }
+    
+    float scores [] = {0.0f, 0.0f};
+    
+    for (int i = 0; i < 2; i++) {
+        float smallestDistance = MAXFLOAT;
+        for (auto pixel : (*map->getEdges())[i]) {
+            if (distance(pixel->position, position) <= smallestDistance) {
+                smallestDistance = distance(pixel->position, position);
+                scores[i] = pixel->getEdgePercent();
+            }
+        }
+    }
+    
+    
+    //if we are at the finish and the algorithm picks one point cloes to 1 on one side and another close to 0 on the other, thats problems
+    if (abs(scores[0] - scores[1]) > 0.1) {
+        score = scores[0];
+        return scores[0];
+    }
+    
+    score = (scores[0] + scores[1]) / 2.0f;
+    return (scores[0] + scores[1]) / 2.0f;
+}
+
 void Pixel::EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b) {
     map->getMapObject()->getTexture()->EditPixel(texCoord.x, texCoord.y, r, g, b);
 }

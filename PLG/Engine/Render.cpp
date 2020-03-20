@@ -141,17 +141,22 @@ void Render::removeColordObject(ColoredObject *drawObject) {
     }
 }
 
-Render::Render() {
+Render::Render(bool show): show(show) {
     InitGL();
+    
+    this->show = false;
     
     modelLoader = new ModelLoader(this);
     camera = new Camera(this);
 }
 
 void Render::Draw() {
+    if (!show) {
+        return;
+    }
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    
     camera->UpdateMatricies();
     
     glUseProgram(mainProgram);

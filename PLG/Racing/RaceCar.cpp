@@ -11,7 +11,7 @@
 #include "Pixel.hpp"
 #include "NeuralNetwork.hpp"
 #include "Render.hpp"
-#include "HelperFunction.h"
+#include "ColorData.hpp"
 
 #include "RaceCar.hpp"
 
@@ -23,25 +23,43 @@ bool IsBlack(Pixel* input) {
 RaceCar::RaceCar(Render* render, Map* map, vec3 position): map(map), render(render) {
     triangle = new ColoredObject(render);
     triangle->setModelDataByKey("triangle");
+    triangle->getColorData()->SetUnicodeColour(0.7f, 0.7f, 0.7f);
     triangle->setScale(vec3(0.5 * CAR_SCALE, 1, 1 * CAR_SCALE));
     triangle->setPosition(position);
     
-    for (double dir : CAR_SENSORS) {
-        visionIndicators.push_back(new ColoredObject(triangle->getRender()));
-        visionIndicators[visionIndicators.size() - 1]->setModelDataByKey("cube");
-        visionIndicators[visionIndicators.size() - 1]->setScale(0.01);
+    for (double _ : CAR_SENSORS) {
+        ColoredObject* currVisIndicator = new ColoredObject(triangle->getRender());
+        currVisIndicator->setModelDataByKey("cube");
+        currVisIndicator->setScale(0.01);
+        currVisIndicator->getColorData()->SetUnicodeColour(0.3f, 0.3f, 0.3f);
+        visionIndicators.push_back(currVisIndicator);
     }
 }
 
+void RaceCar::setNeuralNetwork(NeuralNetwork* newNeuralNet) {
+    neuralNet = newNeuralNet;
+    triangle->getColorData()->SetUnicodeColour(neuralNet->getR(), neuralNet->getG(), neuralNet->getB());
+}
+
 void RaceCar::CheckLapProgress() {
-    float percent = map->getProgress(triangle->getPosition());
+    float progress = map->getProgress(triangle->getPosition());
     
-    if (percent < 0.70 && percent > 0.30) {
+    if (progress < 0.70 && progress > 0.30) {
         passedHalfway = true;
     }
     
-    if ((percent > 0.995 || percent < 0.005) && passedHalfway) {
-        Finish(1.0f + (1000.0f / timeTraveled));
+    if (progress < 0.3 && !passedHalfway) {
+        score = progress;
+    }
+    
+    if (progress > 0.3 && passedHalfway) {
+        score = progress;
+    }
+
+    if ((progress > 0.995 || progress < 0.005) && passedHalfway) {
+        score = 1.0f + (1000.0f / timeTraveled);
+        printf("Car finished track after %d ticks with score %f\n", timeTraveled, score);
+        Finish(score);
     }
 }
 
@@ -62,7 +80,8 @@ void RaceCar::Reset() {
 
 void RaceCar::Tick(int time) {
     timeTraveled += time;
-    
+    CheckLapProgress();
+
     //killing spinners
     if (timeTraveled % (1000 * time) == 0) {
         if (abs(rotation) > 3 * 2 * M_PI) {
@@ -74,16 +93,13 @@ void RaceCar::Tick(int time) {
     }
     
     //killing slowpokes
-    if (timeTraveled == 1000 * time) {
-        float progress = map->getProgress(triangle->getPosition());
+    if (timeTraveled % 1000 * time == 0) {
         
-        if (progress < 0.01f || progress > 0.99f) {
+        if (score < 0.02f) {
             Finish();
         }
     }
-    
-//    CheckLapProgress();
-    
+            
     neuralNet->resetCurrentInputNode();
     
     TexCoord position = TexCoord(triangle->getPosition(), map->getHeight(), map->getWidth());
@@ -110,7 +126,7 @@ void RaceCar::Tick(int time) {
     neuralNet->resetCurrentOutputNode();
     
     const double rotationNode = neuralNet->getNextOutputNode(true);
-    rotation += time * ROTATION_FACTOR * rotationNode;
+    rotation += time * ROTATION_FACTOR * rotationNode * TIME_STEPS ;
     
     velocity *= INERTIA_FACTOR;
     const double neuralNetAcceleration = neuralNet->getNextOutputNode(true);
@@ -142,10 +158,8 @@ void RaceCar::Finish(float score) {
     finished = true;
 }
 
-void RaceCar::Finish() {
-    float score = map->getProgress(triangle->getPosition());
-        
-    Finish(score > 0.6f && !passedHalfway ? 0.0f : score);
+void RaceCar::Finish() {        
+    Finish(score);
 }
 
 void RaceCar::setPosition(vec3 newPosition) {

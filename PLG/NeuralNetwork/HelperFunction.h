@@ -16,6 +16,16 @@ using namespace std;
 #include <glm/glm.hpp>
 using namespace glm;
 
+double ExponentialSmoothing(float alpha, vector<float> inp) {
+    double output = inp[0];
+    
+    for (int i = 1; i < inp.size(); i++) {
+        output += alpha * inp[i] + (1 - alpha) * output;
+    }
+    
+    return output;
+}
+
 template<typename T>
 void SortArray(vector<T>* array, bool (*isBigger)(T, T)) {
     bool swapped = true;

@@ -20,6 +20,7 @@ class Render {
 private:
     int width = 1000;
     int height = 1000;
+    bool show;
     
     ModelLoader* modelLoader;
     Camera* camera;
@@ -37,11 +38,13 @@ private:
     GLuint LoadShader(const char* path, GLenum type);
     
 public:
-    Render();
-    
+    Render(): Render(true) { }
+    Render(bool show);
+
     GLFWwindow* getWindow() { return window; }
     
     void Draw();
+    void setShow(bool show) { this->show = show; }
     
     void addDrawableObject(DrawableObject* drawObject);
     void addColoredObject(ColoredObject* coloredObject);

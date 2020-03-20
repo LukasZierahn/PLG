@@ -12,6 +12,10 @@
 #include <vector>
 using namespace::std;
 
+#define METRIC_STEPS 3
+#define METRIC_STEPS_START 1
+#define METRIC_DISTANCE 100.0f
+
 class NeuralNetwork
 {
     float score = 0.0f;
@@ -29,7 +33,10 @@ class NeuralNetwork
     
     int currentInputNode = 0;
     int currentOutputNode = 0;
-
+    
+    float r;
+    float g;
+    float b;
 public:
     NeuralNetwork(vector<int> layerSetup);
     
@@ -47,11 +54,20 @@ public:
     void resetCurrentOutputNode() { currentOutputNode = 0; }
     double getNextOutputNode(bool stretch = false);
     
-    double DistanceSquared(NeuralNetwork* neuralNet);
+    double Distance(NeuralNetwork* neuralNet);
 
     vector<double>* getNodes() { return &nodes; };
     vector<double>* getBiases() { return &biases; };
     vector<double>* getConnections() { return &connections; };
+    
+    void setColor(float r, float g, float b) {
+        this->r = r;
+        this->g = g;
+        this->b = b;
+    }
+    float getR() { return r; }
+    float getG() { return g; }
+    float getB() { return b; }
 
     ~NeuralNetwork();
 };

@@ -21,46 +21,62 @@ Racing::Racing(int carCount) {
     render = new Render();
     
     map = new Map(render);
-    
-    startingPosition = map->getStartPoint()->position;
-    for (int i = 0; i < carCount; i++) {
-        raceCarVec.push_back(new RaceCar(render, map, startingPosition));
+}
+
+void Racing::addNetworks(vector<NeuralNetwork*> networks) {
+    for (auto network : networks) {
+        RaceCar* car = new RaceCar(render, map, map->getStartPoint()->position);
+        car->setNeuralNetwork(network);
+        raceCarVec.push_back(car);
     }
-    raceCarVec.shrink_to_fit();
+}
+
+
+void Racing::removeAllNetworks() {
+    for (auto car : raceCarVec) {
+        delete car;
+    }
+    
+    raceCarVec.clear();
 }
 
 void Racing::setNeuralNetworks(vector<NeuralNetwork*> networks) {
-    for (int i = 0; i < raceCarVec.size(); i++) {
-        raceCarVec[i]->setNeuralNetwork(networks[i]);
-    }
-}
-
-vector<NeuralNetwork*> Racing::getNeuralNetworks() {
-    vector<NeuralNetwork*> output;
+    removeAllNetworks();
     
-    for (RaceCar* raceCar : raceCarVec) {
-        output.push_back(raceCar->getNeuralNetwork());
+    for (auto network : networks) {
+        RaceCar* car = new RaceCar(render, map, map->getStartPoint()->position);
+        car->setNeuralNetwork(network);
+        raceCarVec.push_back(car);
     }
-    
-    return output;
 }
 
 bool Racing::Compute() {
+    
     bool done = false;
     while (!done && glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0) {
         map->getEdges();
         
         done = true;
-        for (int i = 0; i < raceCarVec.size(); i++) {
-            if (!raceCarVec[i]->getFinished()) {
+        for (RaceCar* car : raceCarVec) {
+            if (!car->getFinished()) {
                 done = false;
-                raceCarVec[i]->Tick(TIME_STEPS);
+                car->Tick(1);
+                
+                if (car->getTimeTraveled() >= 100000) {
+                    car->Finish(-1.0f);
+                }
             }
         }
         
         render->Draw();
     }
     
+    for (int i = 0; i < raceCarVec.size(); i++) {
+        if (raceCarVec[i]->getNeuralNetwork()->getScore() >= 0.0f) {
+            render->setShow(true);
+        }
+    }
+
     return !(glfwGetKey(render->getWindow(), GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(render->getWindow()) == 0);
 }
 
@@ -81,3 +97,4 @@ Racing::~Racing() {
     delete map;
     delete render;
 }
+

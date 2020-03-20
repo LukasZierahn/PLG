@@ -24,6 +24,8 @@
 
 #define INITIAL_ORIENTATION -M_PI / 2
 
+#define TIME_STEPS 10
+
 class ColoredObject;
 class Render;
 class Map;
@@ -38,6 +40,7 @@ class RaceCar {
     double distanceTraveled = 0;
     long timeTraveled = 0;
     
+    float score = -1;
     bool passedHalfway = false;
     
     ColoredObject* triangle;
@@ -51,8 +54,8 @@ class RaceCar {
 public:
     RaceCar(Render* render, Map* map, vec3 position);
     
+    void setNeuralNetwork(NeuralNetwork* newNeuralNet);
     NeuralNetwork* getNeuralNetwork() { return neuralNet; }
-    void setNeuralNetwork(NeuralNetwork* newNeuralNet) { neuralNet = newNeuralNet; }
 
     void setPosition(vec3 newPosition);
     
@@ -64,7 +67,9 @@ public:
     void Finish(float percentage);
 
     bool getFinished() { return finished; }
-    
+    long getTimeTraveled() { return timeTraveled; }
+    float getScore() { return score; }
+
     ~RaceCar();
 };
 

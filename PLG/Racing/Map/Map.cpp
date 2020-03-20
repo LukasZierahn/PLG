@@ -48,6 +48,11 @@ Pixel* Map::getPixel(int x, int y) {
     return pixelVec[pixelPos];
 }
 
+Pixel* Map::getPixel(vec3 position) {
+    TexCoord texCoord(position, width, height);
+    return getPixel(texCoord);
+}
+
 Pixel* Map::getPixel(TexCoord texCoord) {
     return getPixel(texCoord.x, texCoord.y);
 }
@@ -155,25 +160,7 @@ Pixel* Map::SendRay(TexCoord texCoord, float direction, bool (*condition)(Pixel*
 }
 
 float Map::getProgress(vec3 position) {
-    float scores [] = {0.0f, 0.0f};
-    
-    for (int i = 0; i < 2; i++) {
-        float smallestDistance = MAXFLOAT;
-        for (auto pixel : edges[i]) {
-            if (distance(pixel->position, position) <= smallestDistance) {
-                smallestDistance = distance(pixel->position, position);
-                scores[i] = pixel->getEdgePercent();
-            }
-        }
-    }
-    
-    
-    //if we are at the finish and the algorithm picks one point cloes to 1 on one side and another close to 0 on the other, thats problems
-    if (abs(scores[0] - scores[1]) > 0.1) {
-        return scores[0];
-    }
-    
-    return (scores[0] + scores[1]) / 2.0f;
+    return getPixel(position)->getScore();
 }
 
 Map::~Map() {

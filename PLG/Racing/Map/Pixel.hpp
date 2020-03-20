@@ -21,6 +21,8 @@ private:
     int edgeDepth = -1;
     int edgeId = -1;
     
+    float score = -1;
+    
     bool IsInBounds(TexCoord texcoord);
     
 public:
@@ -45,6 +47,7 @@ public:
     void RecursiveAddAllNeighbours(vector<Pixel*>* addingTarget, int edgeDepth, int edgeId, TexCoord previousNode);
     
     float getEdgePercent();
+    float getScore();
     
     void EditPixelOnMap(unsigned char r, unsigned char g, unsigned char b);
     

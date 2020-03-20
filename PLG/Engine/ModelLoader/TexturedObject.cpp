@@ -8,6 +8,7 @@
 
 #include "Render.hpp"
 #include "ModelLoader.hpp"
+#include "ModelData.hpp"
 #include "Texture.hpp"
 
 #include "TexturedObject.hpp"

@@ -14,22 +14,7 @@
 
 class Render;
 class Texture;
-
-struct ModelData {
-    string key;
-    GLuint vertexBuffer;
-    GLuint uvBuffer;
-    GLuint normalBuffer;
-    GLuint indexBuffer;
-    GLuint colorBuffer;
-    
-    int vertexCount;
-    int indexCount;
-    
-    bool hasNormals = false;
-    bool hasUVs = false;
-    bool hasColor = false;
-};
+class ModelData;
 
 class ModelLoader {
 private:
@@ -53,7 +38,7 @@ public:
     
     void LoadTextureFromFile(string key);
     void LoadTextureFromFile(string key, string path);
-
+    
     ~ModelLoader();
 };
 

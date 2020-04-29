@@ -44,7 +44,7 @@ public:
     void Mainloop();
                 
     NeuralNetwork* CombineNetworks(NeuralNetwork* source1, NeuralNetwork* source2);
-    
+
     ~GeneticTrainer();
 };
 

@@ -39,7 +39,8 @@ class NeuralNetwork
     float b;
 public:
     NeuralNetwork(vector<int> layerSetup);
-    
+    //NeuralNetwork(vector<int> layerSetup);
+
     void Compute();
     void RandomizeValues();
     
@@ -68,7 +69,7 @@ public:
     float getR() { return r; }
     float getG() { return g; }
     float getB() { return b; }
-
+    
     ~NeuralNetwork();
 };
 

@@ -118,8 +118,8 @@ double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
     vector<int> currentConfig(nodeCount[0], 0);
     
     while (currentConfig[0] < METRIC_STEPS) {
-        EvaluateNetwork(this, currentConfig, stepSize);
-        EvaluateNetwork(neuralNet, currentConfig, stepSize);
+        EvaluateNetwork(this,       currentConfig, stepSize);
+        EvaluateNetwork(neuralNet,  currentConfig, stepSize);
         
         resetCurrentOutputNode();
         neuralNet->resetCurrentOutputNode();
@@ -140,3 +140,4 @@ double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
 
 NeuralNetwork::~NeuralNetwork() {
 }
+

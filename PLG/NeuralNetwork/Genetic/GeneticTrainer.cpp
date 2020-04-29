@@ -64,6 +64,7 @@ void GeneticTrainer::Mainloop() {
 }
 
 NeuralNetwork* GeneticTrainer::CombineNetworks(NeuralNetwork* source1, NeuralNetwork* source2) {
+    
     NeuralNetwork* output = new NeuralNetwork(layerSetup);
     
     return output;

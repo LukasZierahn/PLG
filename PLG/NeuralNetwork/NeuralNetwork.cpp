@@ -11,6 +11,8 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "NeuralDistance.h"
+
 NeuralNetwork::NeuralNetwork(vector<int> layerSetup) {
     nodeCount = layerSetup;
     
@@ -87,24 +89,13 @@ double NeuralNetwork::getNextOutputNode(bool stretch) {
     }
 }
 
-void IncreaseConfig(vector<int>* config) {
-    for (unsigned long i = config->size() - 1; i >= 0; i--) {
-        if ((*config)[i] + 1 < METRIC_STEPS || i == 0) {
-            (*config)[i] += 1;
-            return;
-        }
-        
-        (*config)[i] = 0;
-    }
-}
-
-void EvaluateNetwork(NeuralNetwork* network, vector<int> config, float stepSize) {
-    network->resetCurrentInputNode();
+void NeuralNetwork::EvaluateNetwork(vector<int> config, float stepSize) {
+    resetCurrentInputNode();
     for (auto configValue : config) {
-        network->setNextInputNode((METRIC_STEPS_START + configValue) * stepSize);
+        setNextInputNode((METRIC_STEPS_START + configValue) * stepSize);
     }
     
-    network->Compute();
+    Compute();
 }
 
 double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
@@ -113,13 +104,12 @@ double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
     }
     
     double distanceSum = 0;
-    float stepSize = METRIC_DISTANCE;
     
     vector<int> currentConfig(nodeCount[0], 0);
     
-    while (currentConfig[0] < METRIC_STEPS) {
-        EvaluateNetwork(this,       currentConfig, stepSize);
-        EvaluateNetwork(neuralNet,  currentConfig, stepSize);
+    do {
+        EvaluateNetwork(currentConfig, METRIC_DISTANCE);
+        neuralNet->EvaluateNetwork(currentConfig, METRIC_DISTANCE);
         
         resetCurrentOutputNode();
         neuralNet->resetCurrentOutputNode();
@@ -129,8 +119,7 @@ double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
         }
         distanceSum += sqrt(bufferSum);
         
-        IncreaseConfig(&currentConfig);
-    }
+    } while (IncreaseConfig(&currentConfig));
     
     distanceSum /= (double)pow(METRIC_STEPS, nodeCount[0]);
     

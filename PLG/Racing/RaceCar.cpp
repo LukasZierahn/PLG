@@ -58,7 +58,7 @@ void RaceCar::CheckLapProgress() {
 
     if ((progress > 0.995 || progress < 0.005) && passedHalfway) {
         score = 1.0f + (1000.0f / timeTraveled);
-        printf("Car finished track after %d ticks with score %f\n", timeTraveled, score);
+        printf("Car finished track after %ld ticks with score %f\n", timeTraveled, score);
         Finish(score);
     }
 }

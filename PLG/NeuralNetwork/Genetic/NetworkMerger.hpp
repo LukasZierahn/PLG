@@ -16,20 +16,27 @@ using namespace std;
 class NeuralNetwork;
 
 struct MergeNode {
+    NeuralNetwork* network = nullptr;
     int layer = 0;
     int node = 0;
+
+    vector<float> forwardImportance; //Importance for the nodes in the next layer
+    vector<float> backwardsImportance; //Importance of the nodes in the previous layer for this node
+    float aggregatedImportance = 0.0f;
     
-    NeuralNetwork* network = nullptr;
+    bool include = false;
 };
 
 class NetworkMerger {
     vector<int> layerSetup;
     vector<vector<MergeNode>> mergeMap;
     
-    void GenerateMergeMap(NeuralNetwork inp1, NeuralNetwork inp2);
+    
+    
+    void GenerateMergeMap(NeuralNetwork* inp1, NeuralNetwork* inp2);
     
 public:
-    NeuralNetwork* MergeNetworks(NeuralNetwork inp1, NeuralNetwork inp2);
+    NeuralNetwork* MergeNetworks(NeuralNetwork* inp1, NeuralNetwork* inp2);
 };
 
 #endif /* NetworkMerger_hpp */

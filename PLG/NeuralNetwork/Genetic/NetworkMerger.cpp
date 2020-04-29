@@ -8,7 +8,7 @@
 
 #include "NetworkMerger.hpp"
 
+#include "NeuralNetwork.hpp"
 
-NeuralNetwork *NetworkMerger::MergeNetworks(NeuralNetwork inp1, NeuralNetwork inp2) { 
-    <#code#>;
-}
+//NeuralNetwork* NetworkMerger::MergeNetworks(NeuralNetwork* inp1, NeuralNetwork* inp2) {
+//}

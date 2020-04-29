@@ -12,10 +12,6 @@
 #include <vector>
 using namespace::std;
 
-#define METRIC_STEPS 3
-#define METRIC_STEPS_START 1
-#define METRIC_DISTANCE 100.0f
-
 class NeuralNetwork
 {
     float score = 0.0f;
@@ -37,9 +33,10 @@ class NeuralNetwork
     float r;
     float g;
     float b;
+    
+    void EvaluateNetwork(vector<int> config, float stepSize);
 public:
     NeuralNetwork(vector<int> layerSetup);
-    //NeuralNetwork(vector<int> layerSetup);
 
     void Compute();
     void RandomizeValues();

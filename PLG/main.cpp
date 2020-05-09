@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "render.hpp"
+#include "Log.h"
 #include "Racing/Racing.hpp"
 #include "GeneticTrainer.hpp"
 #include "Racing/RaceCar.hpp"

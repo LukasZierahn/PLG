@@ -13,7 +13,7 @@
 #define METRIC_STEPS_START 1
 #define METRIC_DISTANCE 100.0f
 
-bool IncreaseConfig(vector<int>* config) {
+inline bool IncreaseConfig(vector<int>* config) {
     for (long i = config->size() - 1; i >= 0; i--) {
         if ((*config)[i] + 1 < METRIC_STEPS) {
             (*config)[i] += 1;

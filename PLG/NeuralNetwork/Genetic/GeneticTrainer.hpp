@@ -17,6 +17,7 @@ using namespace std;
 class NeuralNetwork;
 class NeuralNetworkScenario;
 class Branch;
+class NetworkMerger;
 
 #define INITIAL_BRANCHES 3
 
@@ -28,8 +29,10 @@ private:
     
     int population;
     int iteration = 0;
-    
+        
     const int keptPopulation = 5;
+    
+    NetworkMerger* networkMerger = nullptr;
     
     NeuralNetworkScenario* scenario;
     

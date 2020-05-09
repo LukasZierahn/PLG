@@ -17,12 +17,16 @@ NeuralNetwork::NeuralNetwork(vector<int> layerSetup) {
     nodeCount = layerSetup;
     
     nodeCountSums.push_back(0);
+    connectionCountSums.push_back(0);
     
     for (int i = 0; i < layerSetup.size(); i++) {
         totalNodeCount += layerSetup[i];
         if (i != layerSetup.size() - 1) {
             nodeCountSums.push_back(totalNodeCount);
             totalConnectionCount += layerSetup[i] * layerSetup[i + 1];
+            if (i != layerSetup.size() - 2) {
+                connectionCountSums.push_back(totalConnectionCount);
+            }
         }
     }
     
@@ -102,11 +106,12 @@ double NeuralNetwork::Distance(NeuralNetwork* neuralNet) {
     if (neuralNet == this) {
         return 0.0f;
     }
-    
+        
     double distanceSum = 0;
     
     vector<int> currentConfig(nodeCount[0], 0);
     
+    //evil evil do while loop, sue me
     do {
         EvaluateNetwork(currentConfig, METRIC_DISTANCE);
         neuralNet->EvaluateNetwork(currentConfig, METRIC_DISTANCE);

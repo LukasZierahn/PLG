@@ -9,11 +9,14 @@
 #include "NeuralNetwork.hpp"
 #include "NeuralNetworkScenario.hpp"
 #include "Branch.hpp"
+#include "NetworkMerger.hpp"
 
 #include "GeneticTrainer.hpp"
 
 
 GeneticTrainer::GeneticTrainer(int population, vector<int> layerSetup, NeuralNetworkScenario* scenario): population(population), scenario(scenario), layerSetup(layerSetup) {
+    networkMerger = new NetworkMerger();
+    
     while(branches.size() < INITIAL_BRANCHES) {
         NeuralNetwork* newNeuralNet = new NeuralNetwork(layerSetup);
         newNeuralNet->RandomizeValues();
@@ -30,6 +33,8 @@ void GeneticTrainer::addBranch(NeuralNetwork* initialNetwork) {
         }
     }
     
+    networkMerger->GenerateMergeMap(initialNetwork, initialNetwork);
+
     branches.push_back(new Branch(this, layerSetup, initialNetwork));
 }
 
@@ -71,6 +76,8 @@ NeuralNetwork* GeneticTrainer::CombineNetworks(NeuralNetwork* source1, NeuralNet
 }
 
 GeneticTrainer::~GeneticTrainer() {
+    delete networkMerger;
+    
     for (int i = 0; i < branches.size(); i++) {
         delete branches[i];
     }
